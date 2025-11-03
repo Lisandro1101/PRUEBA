@@ -29,9 +29,12 @@ const storage = getStorage(app);
 const questionsRef = ref(database, 'questions'); 
 const rankingsRef = ref(database, 'rankings'); 
 
-// --- NUEVO --- Referencias del Juego de Memoria
+// --- Referencias del Juego de Memoria
 const memoryImagesRef = ref(database, 'memoryImages'); // Guarda URLs de imágenes
 const memoryRankingsRef = ref(database, 'memoryRankings'); // Guarda tiempos del juego
+
+// --- Referencias del Juego del Ahorcado (NUEVO)
+const hangmanWordsRef = ref(database, 'hangmanWords'); 
 
 let quizQuestions = []; 
 let currentQuestionIndex = 0;
@@ -91,7 +94,7 @@ function saveFinalResult(data) {
 }
 
 // =======================================================================
-// --- NUEVO --- FUNCIONES DE ALMACENAMIENTO (JUEGO DE MEMORIA)
+// --- FUNCIONES DE ALMACENAMIENTO (JUEGO DE MEMORIA)
 // =======================================================================
 
 async function uploadMemoryImages(files, progressCallback, statusCallback) {
@@ -460,6 +463,95 @@ function initializeHost() {
                 </div>
             `;
             memoryRankingContainer.appendChild(li);
+        });
+    }
+
+    // --------------------------------------------------
+    // --- Lógica del JUEGO DEL AHORCADO (Hangman) - CORREGIDO
+    // --------------------------------------------------
+    const hangmanForm = document.getElementById('hangman-word-form');
+    const hangmanWordInput = document.getElementById('h-word');
+    const hangmanWordsList = document.getElementById('hangman-words-list');
+    const clearHangmanWordsBtn = document.getElementById('clear-hangman-words-btn');
+
+    let hangmanWords = [];
+
+    function listenForHangmanWords(renderCallback) {
+        onValue(hangmanWordsRef, (snapshot) => {
+            const words = [];
+            if (snapshot.exists()) {
+                snapshot.forEach((childSnapshot) => {
+                    words.push({
+                        id: childSnapshot.key,
+                        ...childSnapshot.val()
+                    });
+                });
+            }
+            hangmanWords = words;
+            renderCallback(words);
+        });
+    }
+    
+    // Llamar a la escucha al inicializar el host
+    listenForHangmanWords(renderHangmanWordsList); 
+
+    hangmanForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const word = hangmanWordInput.value.trim().toUpperCase();
+        if (word.length < 3) {
+            alert("La palabra debe tener al menos 3 caracteres.");
+            return;
+        }
+
+        try {
+            await push(hangmanWordsRef, { word: word });
+            hangmanForm.reset();
+        } catch (error) {
+            console.error("Error al guardar la palabra:", error);
+            alert("Error al guardar la palabra.");
+        }
+    });
+
+    clearHangmanWordsBtn.addEventListener('click', async () => {
+        if (confirm('¿Estás seguro de que quieres ELIMINAR TODAS las palabras del Ahorcado?')) {
+            try {
+                await set(hangmanWordsRef, null); 
+            } catch (error) {
+                console.error("Error al eliminar las palabras:", error);
+            }
+        }
+    });
+
+    hangmanWordsList.addEventListener('click', async (e) => {
+        if (e.target.classList.contains('delete-btn')) {
+            const idToDelete = e.target.dataset.id;
+            try {
+                const wordRef = ref(database, `hangmanWords/${idToDelete}`);
+                await remove(wordRef);
+            } catch (error) {
+                console.error("Error al eliminar la palabra:", error);
+            }
+        }
+    });
+
+    function renderHangmanWordsList(words) {
+        hangmanWordsList.innerHTML = '';
+        if (words.length === 0) {
+            hangmanWordsList.innerHTML = '<li class="p-2 text-gray-500 italic text-center">Aún no hay palabras...</li>';
+            clearHangmanWordsBtn.classList.add('hidden');
+            return;
+        }
+        clearHangmanWordsBtn.classList.remove('hidden');
+        words.forEach((w) => {
+            const li = document.createElement('li');
+            li.className = 'question-item'; 
+            li.innerHTML = `
+                <div class="q-display">
+                    <strong class="text-gray-700">${w.word}</strong>
+                </div>
+                <button class="delete-btn" data-id="${w.id}">Eliminar</button>
+            `;
+            hangmanWordsList.appendChild(li);
         });
     }
 }
@@ -892,6 +984,235 @@ function shuffle(array) {
 
 
 // =======================================================================
+// LÓGICA DEL JUEGO DEL AHORCADO (hangman.html) - CORREGIDO
+// =======================================================================
+
+let hangmanWord = '';
+let maskedWord = [];
+let guessedLetters = [];
+let lives = 7; // El número de errores
+let hangmanPlayerName = '';
+
+// En script.js (alrededor de la línea 744 en el código proporcionado)
+async function startHangmanGame() {
+    // 1. Obtener la lista de palabras
+    const snapshot = await get(hangmanWordsRef);
+    const wordsObject = snapshot.val();
+    const wordList = wordsObject ? Object.values(wordsObject).map(item => item.word) : [];
+
+    if (wordList.length === 0) {
+        // 🚨 CORREGIDO: Ya no se usa HANGMAN_ASCII ni #hangman-art.
+        document.getElementById('game-status').textContent = "❌ ERROR: El anfitrión no ha cargado palabras para jugar.";
+        // Ocultamos todas las partes para que solo se vea la horca vacía
+        document.querySelectorAll('.hangman-part').forEach(part => part.classList.add('hidden')); 
+        return false;
+    }
+
+    // 2. Reiniciar el estado del juego
+    const wordToUse = wordList[Math.floor(Math.random() * wordList.length)];
+    // Limpia espacios y caracteres no alfabéticos para enmascarar
+    const cleanWord = wordToUse.toUpperCase().replace(/[^A-ZÁÉÍÓÚÑ\s]/g, '');
+    hangmanWord = cleanWord; 
+    
+    maskedWord = Array.from(hangmanWord).map(char => {
+        if (char === ' ') return ' ';
+        return '_';
+    });
+    
+    guessedLetters = [];
+    lives = 7; 
+    
+    // 3. Renderizar la interfaz inicial
+    updateHangmanDisplay();
+    enableKeyboard();
+    document.getElementById('game-status').textContent = 'Adivina la palabra. Tienes 7 intentos.';
+    
+    // Ocultar botón de jugar de nuevo
+    const playAgainBtn = document.getElementById('play-again-hangman-btn');
+    if (playAgainBtn) playAgainBtn.classList.add('hidden');
+    
+    return true;
+}
+// En script.js, busca la función updateHangmanDisplay() y reemplázala:
+function updateHangmanDisplay() {
+    const wordDisplay = document.getElementById('word-display');
+    const lettersDisplay = document.getElementById('guessed-letters');
+    const livesDisplay = document.getElementById('lives-display');
+    
+    // 🚨 NUEVO: Lista de selectores CSS para las 7 partes del cuerpo
+    const HANGMAN_PARTS_IDS = [
+        '#hg-head', '#hg-body', '#hg-arm-l', '#hg-arm-r', '#hg-leg-l', '#hg-leg-r', '#hg-face'
+    ];
+    
+    wordDisplay.textContent = maskedWord.join(' ');
+    lettersDisplay.textContent = 'Letras usadas: ' + guessedLetters.join(', ');
+    livesDisplay.textContent = `Vidas restantes: ${lives}`;
+
+    // Obtener el número de errores cometidos (0 a 7)
+    const errors = 7 - lives;
+
+    // --- LÓGICA DE DIBUJO CSS ---
+    HANGMAN_PARTS_IDS.forEach((selector, index) => {
+        const part = document.querySelector(selector);
+        if (part) {
+            // El índice (0 a 6) representa la cantidad de errores necesarios para mostrar la parte.
+            if (index < errors) {
+                // Si el número de errores actual es suficiente, muestra la parte
+                part.classList.remove('hidden');
+            } else {
+                // De lo contrario, oculta la parte
+                part.classList.add('hidden');
+            }
+        }
+    });
+
+    // NOTA: La lógica de la barra de arte ASCII (hangmanArt) se elimina con este nuevo método.
+}
+
+function guessLetter(letter) {
+    letter = letter.toUpperCase();
+
+    // Bloquear si el juego ya terminó
+    if (lives === 0 || !maskedWord.includes('_')) return;
+    
+    // Desactivar el botón de la letra
+    const button = document.querySelector(`.key-btn[data-letter="${letter}"]`);
+    if (button) button.disabled = true;
+
+    if (guessedLetters.includes(letter)) return; 
+
+    guessedLetters.push(letter);
+    
+    let found = false;
+    for (let i = 0; i < hangmanWord.length; i++) {
+        if (hangmanWord[i] === letter) {
+            maskedWord[i] = letter;
+            found = true;
+        }
+    }
+
+    if (!found) {
+        lives--;
+        if (button) button.style.backgroundColor = '#F44336'; // Rojo para incorrecto
+    } else {
+        if (button) button.style.backgroundColor = 'var(--spring-green)'; // Verde para correcto
+    }
+
+    updateHangmanDisplay();
+    checkGameStatus();
+}
+
+function checkGameStatus() {
+    const gameStatus = document.getElementById('game-status');
+    const wordDisplay = document.getElementById('word-display');
+    const playAgainBtn = document.getElementById('play-again-hangman-btn');
+
+    if (!maskedWord.includes('_')) {
+        // ¡Ganó!
+        gameStatus.textContent = `🎉 ¡FELICIDADES, ${hangmanPlayerName}! Adivinaste la palabra.`;
+        wordDisplay.textContent = hangmanWord.split('').join(' ');
+        disableKeyboard();
+        playAgainBtn.classList.remove('hidden');
+    } else if (lives === 0) {
+        // ¡Perdió!
+        gameStatus.textContent = `💀 ¡TE AHORCASTE! La palabra era: ${hangmanWord}.`;
+        wordDisplay.textContent = hangmanWord.split('').join(' ');
+        disableKeyboard();
+        playAgainBtn.classList.remove('hidden');
+    } else {
+        gameStatus.textContent = `Te quedan ${lives} intentos. ¡Sigue adivinando!`;
+    }
+}
+
+// --------------------------------------------------
+// Lógica de Teclado (botones)
+// --------------------------------------------------
+
+function enableKeyboard() {
+    const keyboardContainer = document.getElementById('keyboard-container');
+    if (!keyboardContainer) return;
+    
+    keyboardContainer.innerHTML = '';
+    
+    const alphabet = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';
+    const letters = Array.from(alphabet);
+    
+    letters.forEach(letter => {
+        const button = document.createElement('button');
+        button.textContent = letter;
+        button.className = 'key-btn'; // Clase CSS nueva para los botones de teclado
+        button.dataset.letter = letter;
+        button.addEventListener('click', (e) => {
+            const btn = e.target;
+            // Solo procesar si no está deshabilitado por haber sido presionado antes
+            if (!btn.disabled) { 
+                guessLetter(btn.dataset.letter);
+            }
+        });
+        keyboardContainer.appendChild(button);
+    });
+}
+
+function disableKeyboard() {
+    const buttons = document.querySelectorAll('.key-btn');
+    buttons.forEach(btn => btn.disabled = true);
+}
+
+
+// --------------------------------------------------
+// FUNCIÓN DE INICIALIZACIÓN GLOBAL para hangman.html
+// --------------------------------------------------
+
+function initializeHangmanGame() {
+    const startScreen = document.getElementById('start-screen-hangman');
+    const gameModeContainer = document.getElementById('game-mode-hangman');
+    // 🚨 CORREGIDO: Usar el ID del botón en hangman.html
+    const startButton = document.getElementById('start-btn-hangman'); 
+    const nameInput = document.getElementById('player-name-input-hangman');
+    const nameDisplay = document.getElementById('player-name-display-hangman');
+    const playAgainBtn = document.getElementById('play-again-hangman-btn');
+
+    if (!startButton) return; 
+
+    // Ocultar botón "Jugar de Nuevo" al iniciar
+    if (playAgainBtn) playAgainBtn.classList.add('hidden');
+
+    // Manejador para iniciar o jugar de nuevo
+    async function handleStartGame() {
+        const name = nameInput.value.trim();
+        if (name.length > 0) {
+            hangmanPlayerName = name.substring(0, 20);
+            if(nameDisplay) nameDisplay.textContent = `Jugador: ${hangmanPlayerName}`;
+            
+            const success = await startHangmanGame();
+            if (success) {
+                if (startScreen) startScreen.classList.add('hidden');
+                if (gameModeContainer) gameModeContainer.classList.remove('hidden');
+                if (playAgainBtn) playAgainBtn.classList.add('hidden');
+            } else {
+                 // Si falla la carga de palabras, vuelve a mostrar la pantalla de inicio por si acaso
+                if (startScreen) startScreen.classList.remove('hidden');
+                if (gameModeContainer) gameModeContainer.classList.add('hidden');
+            }
+        } else {
+            alert('Por favor, ingresa tu nombre para comenzar.');
+        }
+    }
+
+    startButton.addEventListener('click', handleStartGame);
+    
+    // El botón "Jugar de Nuevo" solo necesita re-ejecutar el inicio del juego
+    if (playAgainBtn) {
+        playAgainBtn.addEventListener('click', () => {
+             // Oculta el botón inmediatamente
+            playAgainBtn.classList.add('hidden');
+            handleStartGame();
+        });
+    }
+
+}
+
+// =======================================================================
 // INICIALIZACIÓN PRINCIPAL: DETECCIÓN DE PÁGINA (ESTO SE MANTIENE IGUAL)
 // =======================================================================
 
@@ -906,5 +1227,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (path.includes('memory.html')) {
         // Llama a la lógica de inicialización del juego de memoria
         initializeMemoryGame();
+    } else if (path.includes('hangman.html')) {
+        // 🚨 NUEVA INICIALIZACIÓN CORRECTA
+        initializeHangmanGame();
     }
 });

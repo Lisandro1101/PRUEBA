@@ -25,18 +25,18 @@ body {
 }
 
 .portal-container, .quiz-container {
-    /* --- FONDO DE IMAGEN DEL CONTENEDOR (YA ESTÁ EN 0.4) --- */
+    /* Mantenemos tu imagen de fondo para estos contenedores */
     background-image: url('https://firebasestorage.googleapis.com/v0/b/juegos-cumple.firebasestorage.app/o/Imagen%20de%20fondo%2F_FDZ8403.jpg?alt=media&token=70872cb5-5033-48ae-9b1f-38ec124c40fe'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     
-    /* MODIFICACIÓN: Contenedor principal con alta transparencia para que el fondo se vea bien. */
-    background-color: rgba(255, 255, 255, 0.4); 
+    
+    /* 🚨 FONDO SEMI-TRANSPARENTE: Aumento la opacidad de 0.4 a 0.85 para mejor legibilidad */
+    background-color: rgba(255, 255, 255, 0.85); 
     
     padding: 30px;
     border-radius: 25px; 
-    /* Sombra suave y moderna (Efecto 'flotante') */
     box-shadow: 
         0 15px 30px rgba(0, 0, 0, 0.2), 
         0 0 0 5px rgba(255, 204, 0, 0.1); 
@@ -46,31 +46,32 @@ body {
     border: none; 
 }
 
+/* 🚨 NUEVA REGLA DE VISIBILIDAD DE TEXTO PARA TODOS LOS ELEMENTOS CLAVE */
+h1, h2, h3, p, label, .timer, .score, #player-name-display, #final-score, #upload-status, #file-name-display {
+    /* Aplica un contorno blanco y una sombra sutil para resaltar sobre cualquier fondo */
+    text-shadow: 
+        1px 1px 0 #FFF,    /* Sombra Blanca Derecha/Abajo */
+        -1px -1px 0 #FFF,   /* Sombra Blanca Arriba/Izquierda */
+        1px -1px 0 #FFF,    /* Sombra Blanca Derecha/Arriba */
+        -1px 1px 0 #FFF,    /* Sombra Blanca Izquierda/Abajo */
+        2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave para profundidad */
+}
+
+/* 🚨 REGLA ESPECÍFICA PARA H1 (más grande y negrita) */
 h1 {
     color: var(--bee-black);
     font-size: 2em; 
     font-weight: 700;
     margin-bottom: 20px;
-    /* MEJORA: Sombra de texto BLANCA fuerte para visibilidad */
-    text-shadow: 1px 1px 4px rgba(255, 255, 255, 1), 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* 💡 NUEVA CLASE PARA LA SECCIÓN DE RECUERDOS (Contenedor blanco que quieres transparente) */
-.memory-section-bg {
-    /* Fondo semi-transparente (80% de opacidad) */
-    background-color: rgba(255, 255, 255, 0.637); 
-    /* Backdrop filter opcional para efecto "vidrio esmerilado" */
-    backdrop-filter: blur(3px);
-}
 
 /* 💡 MEJORA: Estilo para títulos dentro de la sección de recuerdos */
-.memory-section-bg h2, .memory-section-bg h3 {
-    color: var(--bee-black);
-    font-weight: 800;
-    /* Sombra de texto CLARA para el título "Deja tu Recuerdo" */
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.8);
+.memory-section-bg {
+    /* Asegura que el contenido interno tenga un fondo casi blanco para que el texto sea legible */
+    background-color: rgba(255, 255, 255, 0.95); 
+    backdrop-filter: blur(3px);
 }
-
 
 /* --- ESTILOS COMPARTIDOS DE RELIEVE Y BOTONES --- */
 .btn-portal {
@@ -82,7 +83,6 @@ h1 {
     margin-bottom: 1rem;
     font-weight: bold;
     border-radius: 1.5rem;
-    /* 🚨 Transición suave para todos los movimientos */
     transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
     text-decoration: none;
     box-shadow: 0 6px var(--honey-gold);
@@ -90,7 +90,7 @@ h1 {
 }
 .btn-portal:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px #e65100; /* Sombra más pronunciada al flotar */
+    box-shadow: 0 8px #e65100; 
 }
 .btn-portal:active {
     transform: translateY(3px);
@@ -126,7 +126,8 @@ h1 {
     align-items: center;
     margin-bottom: 25px;
     padding: 12px 20px;
-    background: #fff8e1; 
+    /* 🚨 Fondo casi blanco para contraste */
+    background: rgba(255, 255, 255, 0.9); 
     border-radius: 15px;
     border: none;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05); 
@@ -163,6 +164,9 @@ h1 {
     border: 2px solid var(--honey-gold);
     color: var(--bee-black);
     box-shadow: 0 4px var(--honey-gold); /* Sombra "presionable" */
+    
+    /* 🚨 Desactivar text-shadow en botones, ya tienen alto contraste */
+    text-shadow: none !important;
 }
 
 .option-btn:hover:not(:disabled) {
@@ -196,6 +200,7 @@ h1 {
     left: 0; 
     width: 100%;
     padding: 10px 20px;
+    /* 🚨 Fondo blanco sólido para que el texto sea legible */
     background-color: #ffffff; 
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); 
     box-sizing: border-box;
@@ -232,22 +237,23 @@ h1 {
 .admin-mode { background: #fcfcfc; border-color: var(--honey-gold); text-align: left; }
 .save-btn, .clear-btn { padding: 12px 20px; border-radius: 8px; font-weight: 600; }
 
-/* 🚨 ESTILOS DEL CONTENEDOR MODAL/FLOTANTE */
+/* 🚨 ESTILOS DEL CONTENEDOR MODAL/FLOTANTE (Juego de Memoria) */
 .modal-full-screen {
-    position: fixed; /* Lo hace flotar sobre todo */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semi-transparente */
-    z-index: 9999; /* Asegura que esté por encima de todo */
+    /* 🚨 Fondo blanco casi sólido para el modal */
+    background-color: rgba(255, 255, 255, 0.98); 
+    z-index: 9999; 
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Alinea el contenido hacia arriba */
+    justify-content: flex-start; 
     align-items: center;
     padding: 10px;
     box-sizing: border-box;
-    overflow-y: auto; /* Permite desplazamiento si el contenido es muy largo */
+    overflow-y: auto; 
 }
 
 /* Contenedor interno para que se vea como una sección */
@@ -257,13 +263,13 @@ h1 {
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 550px; /* Limita el ancho en pantallas grandes */
+    max-width: 550px; 
     margin-top: 20px;
 }
 
 /* Ajuste específico para el grid dentro del modal */
 .modal-full-screen .grid-container {
-    max-width: none; /* Ignora el max-width para usar el ancho disponible */
+    max-width: none; 
     margin: 10px auto;
 }
 /* Aseguramos que los botones de cierre funcionen */
@@ -273,29 +279,26 @@ h1 {
 
 /* RE-AJUSTE DE TAMAÑOS DE CARTA PARA MÓVILES */
 @media (max-width: 768px) {
-    /* La altura general se puede subir mucho más en móviles */
     .modal-full-screen .card {
-        height: 140px; /* Altura más grande ahora que la pantalla es solo para el juego */
+        height: 140px; 
     }
     .modal-full-screen .grid-container {
-        /* Permite que el grid use un poco más de margen en el ancho */
         max-width: 95%;
         padding: 5px;
     }
 }
 @media (max-width: 400px) {
     .modal-full-screen .card {
-        height: 100px; /* Ajuste si la pantalla es muy pequeña */
+        height: 100px; 
     }
 }
 
 /* 🚨 SOLUCIÓN PARA LA VISIBILIDAD DE LA IMAGEN EN EL VOLTEO */
-/* La clase 'card-face' se usa en el JS generado. Reforzamos su comportamiento 3D */
 .card-face {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; /* Esto oculta la cara cuando está girada 180 grados */
+    backface-visibility: hidden; 
     border-radius: 7px;
     display: flex;
     justify-content: center;
@@ -303,12 +306,162 @@ h1 {
 }
 
 .card-front {
-    /* La cara frontal debe estar girada inicialmente para ocultarse */
     transform: rotateY(180deg);
 }
 
 .card-back {
-    /* La cara trasera es la que se ve inicialmente (no girada) */
     transform: rotateY(0deg); 
 }
-/* FIN DE SOLUCIÓN VOLTEO */
+
+/* ======================================================================= */
+/* --- ESTILOS VISUALES DEL JUEGO DEL AHORCADO (CSS DRAWING) --- */
+/* ======================================================================= */
+
+/* Contenedor principal para el dibujo */
+.hangman-graphic {
+    position: relative;
+    width: 200px; 
+    height: 250px; 
+    margin: 20px auto;
+    background-color: transparent !important; 
+    border: none !important; 
+    padding: 0 !important;
+}
+
+/* Estructura de la Horca (Gallows) */
+.gallows-base {
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 10px;
+    background-color: var(--bee-black);
+    border-radius: 5px;
+}
+.gallows-pole {
+    position: absolute;
+    bottom: 10px;
+    left: 20%;
+    width: 10px;
+    height: 230px;
+    background-color: var(--bee-black);
+}
+.gallows-beam {
+    position: absolute;
+    top: 0;
+    left: 20%;
+    width: 100px; 
+    height: 10px;
+    background-color: var(--bee-black);
+}
+.gallows-rope {
+    position: absolute;
+    top: 10px;
+    left: 60%;
+    width: 3px;
+    height: 20px;
+    background-color: #A0522D; 
+}
+
+/* ======================================================================= */
+/* --- ESTILOS VISUALES DEL JUEGO DEL AHORCADO (CSS DRAWING) --- */
+/* ======================================================================= */
+
+/* ... (código anterior de la horca) ... */
+
+/* Cuerpo del Ahorcado (The Bee-Man) */
+.hangman-part {
+    position: absolute;
+    /* 🚨 Modificación: Eliminar background-color base, cada parte lo define */
+    /* background-color: var(--bee-black); */ 
+    z-index: 10;
+    transition: opacity 0.3s;
+}
+.hangman-part.hidden {
+    opacity: 0;
+}
+
+/* Cabeza - Se pinta de amarillo Abeja (YA ESTÁ CORRECTO) */
+#hg-head {
+    top: 30px;
+    left: 54%;
+    width: 25px;
+    height: 25px;
+    border: 3px solid var(--bee-black);
+    background-color: var(--bee-yellow); 
+    border-radius: 50%;
+}
+
+/* Cuerpo (tronco) - 🚨 MODIFICADO */
+#hg-body {
+    top: 55px;
+    left: 60.5%;
+    width: 3px;
+    height: 50px;
+    transform: translateX(-50%);
+    border-radius: 0; /* o un ligero border-radius para suavizar */
+    
+    /* 🚨 NUEVOS ESTILOS: Color y contorno de la cabeza */
+    background-color: var(--bee-yellow);
+    border: 3px solid var(--bee-black);
+    /* Ajustar el tamaño para compensar el borde */
+    height: 44px; /* 50px - (2*3px) de borde */
+    left: calc(60.5% - 3px); /* Ajuste de posición */
+    width: 3px; /* El borde hará que parezca más ancho */
+}
+
+/* Brazos, Piernas (Líneas diagonales) */
+/* 🚨 MODIFICADO: Eliminar background-color base para brazos/piernas */
+#hg-arm-l, #hg-arm-r, #hg-leg-l, #hg-leg-r {
+    /* width: 3px; // Esto ya no aplica directamente como el "grosor" */
+    height: 25px;
+    border-radius: 0;
+    /* background-color: var(--bee-black); // ELIMINADO */
+    transform-origin: top; 
+    
+    /* 🚨 NUEVOS ESTILOS: Color y contorno de la cabeza */
+    background-color: var(--bee-yellow);
+    border: 3px solid var(--bee-black);
+    /* Ajustar el tamaño y la posición para compensar el borde */
+    height: 19px; /* 25px - (2*3px) de borde, pero como es rotado, es más complejo */
+    width: 3px; /* El borde lo hará parecer más grueso */
+}
+
+/* Brazo Izquierdo - 🚨 AJUSTADA POSICIÓN */
+#hg-arm-l {
+    top: 65px; 
+    left: calc(60.5% - 3px); /* Ajuste de posición */
+    transform: translateX(-50%) rotate(45deg); 
+}
+/* Brazo Derecho - 🚨 AJUSTADA POSICIÓN */
+#hg-arm-r {
+    top: 65px; 
+    left: calc(60.5% - 3px); /* Ajuste de posición */
+    transform: translateX(-50%) rotate(-45deg); 
+}
+
+/* Pierna Izquierda - 🚨 AJUSTADA POSICIÓN y ALTURA */
+#hg-leg-l {
+    height: 24px; /* 30px - (2*3px) */
+    top: 105px; 
+    left: calc(60.5% - 3px); /* Ajuste de posición */
+    transform: translateX(-50%) rotate(-30deg); 
+}
+/* Pierna Derecha - 🚨 AJUSTADA POSICIÓN y ALTURA */
+#hg-leg-r {
+    height: 24px; /* 30px - (2*3px) */
+    top: 105px;
+    left: calc(60.5% - 3px); /* Ajuste de posición */
+    transform: translateX(-50%) rotate(30deg); 
+}
+
+/* Cara de Perdedor (La boca final) - SE MANTIENE IGUAL */
+#hg-face {
+    top: 45px; 
+    left: 50.5%;
+    width: 20px;
+    height: 3px;
+    background-color: #F44336; 
+    border-radius: 0;
+    transform: translateX(-50%) rotate(-20deg); 
+}
