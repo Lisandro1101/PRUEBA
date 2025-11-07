@@ -1,3 +1,4 @@
+// Este es tu nuevo "index": vidriera/app/page.js
 // Usamos "use client" para poder usar animaciones y el estado del formulario
 "use client";
 
@@ -17,7 +18,7 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950 text-gray-200">
       
-      {/* --- NAVEGACIÓN --- */}
+      {/* --- NAVEGACIÓN (BOTÓN CORREGIDO) --- */}
       <nav className="sticky top-0 z-50 backdrop-blur-lg border-b border-white/10">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <motion.div 
@@ -27,13 +28,15 @@ export default function LandingPage() {
           >
             🐝 TuFiestaDigital
           </motion.div>
+          
+          {/* ⭐️ CORRECCIÓN 2: Este botón ahora es para el ANFITRIÓN ⭐️ */}
           <a
-            href="https://app.tufiestadigital.com.ar" // Tu subdominio
+            href="https://app.tufiestadigital.com.ar/host.html" // ⬅️ Apunta a HOST.HTML
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-2 text-sm font-semibold text-black bg-yellow-400 rounded-lg shadow-lg transition-transform duration-200 hover:scale-105 hover:bg-yellow-300"
           >
-            Ingresar a mi Evento
+            Acceso Anfitrión
           </a>
         </div>
       </nav>
@@ -55,18 +58,64 @@ export default function LandingPage() {
             Involucra a tus invitados con trivias personalizadas, juegos de memoria
             y un álbum de recuerdos digital en tiempo real.
           </p>
+          {/* El botón de "Planes" ahora apunta a la sección de características */}
           <motion.a
-            href="#precios" // Enlace a la sección de precios/contacto
+            href="#caracteristicas" 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="px-8 py-4 font-bold text-lg text-black bg-yellow-400 rounded-lg shadow-xl"
           >
-            Ver Planes y Precios
+            Conoce Más
           </motion.a>
         </motion.section>
 
+
+        {/* ⭐️ CORRECCIÓN 1: SECCIÓN DE INGRESO (MOVIDA AQUÍ ARRIBA) ⭐️ */}
+        <section id="ingresar" className="pb-24 pt-12 text-center bg-black bg-opacity-20">
+          <div className="container mx-auto px-6">
+            <h2 className="text-4xl font-black mb-6">
+              ¿Fuiste invitado a un evento?
+            </h2>
+            <p className="text-lg text-gray-400 max-w-xl mx-auto mb-8">
+              Escribe el código (ID) del evento que te pasó el anfitrión 
+              para ingresar.
+            </p>
+            
+            {/* Formulario que redirige al invitado */}
+            <form 
+              className="flex justify-center max-w-lg mx-auto"
+              onSubmit={(e) => {
+                e.preventDefault();
+                // @ts-ignore
+                const eventId = e.target.elements.eventId.value.trim().toLowerCase();
+                if (eventId) {
+                  // Redirigimos al invitado al portal correcto en el subdominio
+                  window.location.href = `https://app.tufiestadigital.com.ar/index.html?event=${eventId}`;
+                } else {
+                  alert("Por favor, escribe un ID de evento.");
+                }
+              }}
+            >
+              <input 
+                type="text"
+                name="eventId" // Le damos un nombre para acceder a él
+                placeholder="Ej: boda-ana-y-pablo"
+                required
+                className="px-6 py-4 w-full rounded-l-lg border-0 bg-zinc-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-yellow-400"
+              />
+              <button 
+                type="submit"
+                className="px-6 py-4 font-bold text-black bg-yellow-400 rounded-r-lg"
+              >
+                Ingresar
+              </button>
+            </form>
+          </div>
+        </section>
+
+
         {/* --- SECCIÓN DE CARACTERÍSTICAS --- */}
-        <section id="caracteristicas" className="py-24 bg-black bg-opacity-20">
+        <section id="caracteristicas" className="py-24">
           <div className="container mx-auto px-6">
             <h2 className="text-4xl font-black text-center mb-16">
               Una Experiencia Interactiva
@@ -125,71 +174,43 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* --- ⭐️ SECCIÓN CTA (MODIFICADA) --- */}
-        {/* Esto ahora es un "buscador de eventos" para INVITADOS. */}
-        <section id="ingresar" className="py-24 text-center">
-          <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-black mb-6">
-              ¿Fuiste invitado a un evento?
-            </h2>
-            <p className="text-lg text-gray-400 max-w-xl mx-auto mb-8">
-              Escribe el código (ID) del evento que te pasó el anfitrión 
-              para ingresar.
-            </p>
-            
-            {/* Formulario que redirige al invitado */}
-            <form 
-              className="flex justify-center max-w-lg mx-auto"
-              onSubmit={(e) => {
-                e.preventDefault();
-                // @ts-ignore
-                const eventId = e.target.elements.eventId.value.trim().toLowerCase();
-                if (eventId) {
-                  // Redirigimos al invitado al portal correcto en el subdominio
-                  window.location.href = `https://app.tufiestadigital.com.ar/index.html?event=${eventId}`;
-                } else {
-                  alert("Por favor, escribe un ID de evento.");
-                }
-              }}
-            >
-              <input 
-                type="text"
-                name="eventId" // Le damos un nombre para acceder a él
-                placeholder="Ej: boda-ana-y-pablo"
-                required
-                className="px-6 py-4 w-full rounded-l-lg border-0 bg-zinc-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-yellow-400"
-              />
-              <button 
-                type="submit"
-                className="px-6 py-4 font-bold text-black bg-yellow-400 rounded-r-lg"
-              >
-                Ingresar
-              </button>
-            </form>
-          </div>
-        </section>
-
-        {/* --- SECCIÓN DE PRECIOS (para el futuro) --- */}
-        <section id="precios" className="py-20">
+        {/* --- SECCIÓN DE PRECIOS/CONTACTO --- */}
+        <section id="precios" className="py-20 bg-black bg-opacity-20">
           <div className="container mx-auto px-6 text-center">
             <h2 className="text-4xl font-black mb-16">Planes Simples</h2>
             <div className="max-w-md mx-auto bg-zinc-900 rounded-2xl border border-white/10 shadow-xl p-8">
                 <h3 className="text-2xl font-bold mb-4">Plan Evento Único</h3>
                 <p className="text-5xl font-black text-yellow-400 mb-4">$XX.XXX</p>
                 <p className="text-gray-400 mb-6">Un solo pago para un evento inolvidable. Incluye todas las características sin límites.</p>
-                <a 
-                    href="#" // Aquí iría tu link de contacto o MercadoPago
-                    className="w-full px-8 py-4 font-bold text-lg text-black bg-yellow-400 rounded-lg shadow-xl"
+                <form 
+                  className="flex justify-center max-w-lg mx-auto"
+                  onSubmit={(e) => {
+                      e.preventDefault();
+                      alert("¡Gracias por tu interés! Pronto nos contactaremos.");
+                      setEmail('');
+                  }}
                 >
-                    Contratar Ahora
-                </a>
+                  <input 
+                    type="email"
+                    placeholder="Tu email de contacto"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="px-6 py-4 w-full rounded-l-lg border-0 bg-zinc-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-yellow-400"
+                  />
+                  <button 
+                    type="submit"
+                    className="px-6 py-4 font-bold text-black bg-yellow-400 rounded-r-lg"
+                  >
+                    Cotizar
+                  </button>
+                </form>
             </div>
           </div>
         </section>
 
       </main>
 
-      {/* --- FOOTER (MODIFICADO) --- */}
+      {/* --- FOOTER (SE MANTIENE IGUAL) --- */}
       <footer className="py-12 border-t border-white/10">
         <div className="container mx-auto px-6 text-center">
           {/* Link sutil para ANFITRIONES */}
