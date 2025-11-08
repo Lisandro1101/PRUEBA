@@ -69,7 +69,7 @@ let hangmanPlayerName = '';
  */
 function getEventId() {
     const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('event');
+    let eventId = params.get('event'); // Lo obtenemos
     if (!eventId) {
         document.body.innerHTML = `
             <div style="padding: 40px; text-align: center; font-family: sans-serif; color: #333;">
@@ -79,7 +79,8 @@ function getEventId() {
         `;
         throw new Error('Event ID no especificado en la URL.');
     }
-    return eventId;
+    // ⭐️ CORRECCIÓN: Convertir siempre a minúsculas para consistencia.
+    return eventId.trim().toLowerCase();
 }
 
 
@@ -1331,7 +1332,7 @@ function handleHostAuth() {
         if (user) {
             // --- Verificación de Permiso ---
             // ¿Este usuario (user.uid) tiene permiso para ESTE evento (EVENT_ID)?
-            // ⭐️ CORRECCIÓN: Apuntar a la ruta correcta según tu JSON
+            // ⭐️ CORRECCIÓN DEFINITIVA: Apuntar a la ruta correcta según tu JSON.
             // Se busca el 'admin_uid' directamente dentro del evento.
             const adminRef = ref(database, `events/${EVENT_ID}/admin_uid`);
             let snapshot;
