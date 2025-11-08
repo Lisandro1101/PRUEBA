@@ -175,12 +175,14 @@ function initializeSuperAdminPanel() {
     const saveBtn = document.getElementById('save-event-btn');
     const statusMsg = document.getElementById('status-message');
     const eventIdInput = document.getElementById('event-id');
+    const loadEventBtn = document.getElementById('load-event-btn'); // ⭐️ NUEVO: Botón para cargar
 
     // 2. VARIABLES PARA LA LISTA DE EVENTOS
     const eventsListElement = document.getElementById('existing-events-list');
     const eventsListRef = ref(database, 'events'); 
 
     // 3. ASIGNAR EVENTOS
+    loadEventBtn.addEventListener('click', loadEventSettings); // ⭐️ NUEVO: Evento para el botón
     form.addEventListener('submit', handleFormSubmit);
     onValue(eventsListRef, renderEventsList); 
     eventsListElement.addEventListener('click', handleListClick); 
@@ -189,8 +191,16 @@ function initializeSuperAdminPanel() {
     /**
      * Carga los settings de un Evento
      */
-    async function loadEventSettings() {
-        const eventId = eventIdInput.value.trim().toLowerCase();
+    async function loadEventSettings(eventIdToLoad) {
+        let eventId;
+        // Si la función recibe un ID directamente (desde la lista), lo usa.
+        // Si no (desde el botón 'Buscar/Cargar'), toma el valor del input.
+        if (typeof eventIdToLoad === 'string') {
+            eventId = eventIdToLoad;
+        } else {
+            eventId = eventIdInput.value.trim().toLowerCase();
+        }
+
         if (!eventId) return;
 
         statusMsg.textContent = `Buscando configuración para "${eventId}"...`;
@@ -466,7 +476,7 @@ function initializeSuperAdminPanel() {
         if (target.classList.contains('load-btn')) {
             const eventIdToLoad = target.dataset.id;
             eventIdInput.value = eventIdToLoad;
-            await loadEventSettings();
+            await loadEventSettings(eventIdToLoad); // ⭐️ CORREGIDO: Pasar el ID a la función
         }
 
         // --- Clic en 'Eliminar' ---

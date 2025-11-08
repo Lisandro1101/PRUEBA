@@ -1331,7 +1331,9 @@ function handleHostAuth() {
         if (user) {
             // --- Verificación de Permiso ---
             // ¿Este usuario (user.uid) tiene permiso para ESTE evento (EVENT_ID)?
-            const adminRef = ref(database, `event_admins/${EVENT_ID}/admin_uid`);
+            // ⭐️ CORRECCIÓN: Apuntar a la ruta correcta según tu JSON
+            // Se busca el 'admin_uid' directamente dentro del evento.
+            const adminRef = ref(database, `events/${EVENT_ID}/admin_uid`);
             let snapshot;
             try {
                 snapshot = await get(adminRef);
