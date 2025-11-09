@@ -1475,22 +1475,29 @@ function initializeAppPage(path) {
  * @returns {Promise<string>} Una promesa que resuelve con el Data URL en formato Base64.
  */
 async function convertUrlToDataURL(url) {
-    // ⭐️ CORRECCIÓN: Usar un proxy para evitar problemas de CORS.
-    // El navegador bloquea la descarga directa de imágenes de otro dominio por seguridad.
-    // Este proxy actúa como intermediario para obtener el archivo.
-    const proxyUrl = `https://cors-anywhere.herokuapp.com/${url}`;
+    // ⭐️ SOLUCIÓN DEFINITIVA: Usar una Cloud Function como proxy seguro.
+    // Esto es más robusto y fiable que los proxies públicos.
+    // 1. Obtenemos el tipo de archivo (ej: 'image/jpeg') desde la URL.
+    const responseForType = await fetch(url, { method: 'HEAD' });
+    const contentType = responseForType.headers.get('content-type') || 'application/octet-stream';
+
+    // 2. Construimos la URL de nuestra Cloud Function.
+    //    - Reemplaza `juegos-cumple` si tu ID de proyecto es diferente.
+    //    - Pasamos la URL original como parámetro.
+    const functionUrl = `https://us-central1-juegos-cumple.cloudfunctions.net/imageProxy?url=${encodeURIComponent(url)}`;
+
     try {
-        const response = await fetch(proxyUrl); // ⭐️ CORREGIDO: Se elimina la línea duplicada y se usa solo el proxy.
+        // 3. Llamamos a nuestra función.
+        const response = await fetch(functionUrl);
         if (!response.ok) {
-            throw new Error(`Error al descargar el archivo: ${response.statusText}`);
+            throw new Error(`Error en la Cloud Function: ${response.statusText}`);
         }
-        const blob = await response.blob();
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-        });
+
+        // 4. La función nos devuelve el archivo en Base64. Lo formateamos
+        //    correctamente para que el navegador lo entienda (Data URL).
+        const base64 = await response.text();
+        return `data:${contentType};base64,${base64}`;
+
     } catch (error) {
         console.error(`No se pudo convertir la URL ${url}:`, error);
         return null; // Devolver null si hay un error para no romper la exportación
