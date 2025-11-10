@@ -2,8 +2,20 @@
 // Usamos "use client" para poder usar animaciones y el estado del formulario
 "use client";
 
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, get } from "firebase/database";
 import { motion } from "framer-motion";
 import { useState } from 'react';
+
+// --- ⭐️ NUEVO: CONFIGURACIÓN DE FIREBASE ⭐️ ---
+const firebaseConfig = {
+  apiKey: "AIzaSyDRsS6YQ481KQadSk8gf9QtxVt_asnrDlc",
+  authDomain: "juegos-cumple.firebaseapp.com",
+  databaseURL: "https://juegos-cumple-default-rtdb.firebaseio.com",
+  projectId: "juegos-cumple",
+};
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 // Pequeños componentes para los íconos (mejora la legibilidad)
 const IconTrivia = () => <span className="text-3xl">✍️</span>;
@@ -20,6 +32,30 @@ export default function LandingPage() {
   
   // Estado para el formulario de contacto (opcional, para futuro)
   const [email, setEmail] = useState('');
+  // ⭐️ NUEVO: Estado para manejar la carga y los errores
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // ⭐️ CORREGIDO: Ahora la función devuelve el estado del evento
+  const getEventStatus = async (eventId) => {
+    setLoading(true);
+    setError('');
+    try {
+      const eventRef = ref(database, `events/${eventId}`);
+      const snapshot = await get(eventRef);
+      if (snapshot.exists()) {
+        const eventData = snapshot.val();
+        // El interruptor controla config.features.games_enabled. Por defecto es true.
+        const gamesEnabled = eventData.config?.features?.games_enabled !== false;
+        return { exists: true, gamesEnabled: gamesEnabled };
+      }
+      return { exists: false, gamesEnabled: false };
+    } catch (err) {
+      console.error("Error verificando el evento:", err);
+      setError("Error de conexión. Inténtalo de nuevo.");
+      return { exists: false, gamesEnabled: false };
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950 text-gray-200">
@@ -99,16 +135,25 @@ export default function LandingPage() {
                 <p className="text-gray-400 mb-6">Ingresa el ID del evento para unirte a la fiesta.</p>
                 <form 
                   className="flex"
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
                     // @ts-ignore
                     const eventId = e.target.elements.guestEventId.value.trim().toLowerCase();
                     if (eventId) {
-                      // Redirige al INVITADO a index.html
-                      window.location.href = `https://app.tufiestadigital.com.ar/index.html?event=${eventId}`;
+                      const status = await getEventStatus(eventId);
+                      if (status.exists) {
+                        if (status.gamesEnabled) {
+                        window.location.href = `https://app.tufiestadigital.com.ar/index.html?event=${eventId}`;
+                      } else {
+                          setError(`El módulo de juegos para "${eventId}" está deshabilitado por el anfitrión.`);
+                        }
+                      } else {
+                        setError(`El evento "${eventId}" no fue encontrado. Verifica el ID.`);
+                      }
                     } else {
                       alert("Por favor, escribe un ID de evento.");
                     }
+                    setLoading(false);
                   }}
                 >
                   <input 
@@ -120,9 +165,10 @@ export default function LandingPage() {
                   />
                   <button 
                     type="submit"
-                    className="px-6 py-4 font-bold text-black bg-yellow-400 rounded-r-lg"
+                    disabled={loading}
+                    className="px-6 py-4 font-bold text-black bg-yellow-400 rounded-r-lg disabled:bg-yellow-600"
                   >
-                    Entrar
+                    {loading ? '...' : 'Entrar'}
                   </button>
                 </form>
               </div>
@@ -133,16 +179,25 @@ export default function LandingPage() {
                 <p className="text-gray-400 mb-6">Ingresa el ID de tu evento para administrarlo.</p>
                 <form 
                   className="flex"
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
                     // @ts-ignore
                     const eventId = e.target.elements.hostEventId.value.trim().toLowerCase();
                     if (eventId) {
-                      // Redirige al ANFITRIÓN a host.html (que pedirá login)
-                      window.location.href = `https://app.tufiestadigital.com.ar/host.html?event=${eventId}`;
+                      const status = await getEventStatus(eventId);
+                      if (status.exists) {
+                        if (status.gamesEnabled) {
+                        window.location.href = `https://app.tufiestadigital.com.ar/host.html?event=${eventId}`;
+                      } else {
+                          setError(`El módulo de juegos para "${eventId}" está deshabilitado. Actívalo desde el panel de super-admin.`);
+                        }
+                      } else {
+                        setError(`El evento "${eventId}" no fue encontrado. Verifica el ID.`);
+                      }
                     } else {
                       alert("Por favor, escribe el ID de tu evento.");
                     }
+                    setLoading(false);
                   }}
                 >
                   <input 
@@ -154,14 +209,21 @@ export default function LandingPage() {
                   />
                   <button 
                     type="submit"
-                    className="px-6 py-4 font-bold text-black bg-yellow-400 rounded-r-lg"
+                    disabled={loading}
+                    className="px-6 py-4 font-bold text-black bg-yellow-400 rounded-r-lg disabled:bg-yellow-600"
                   >
-                    Administrar
+                    {loading ? '...' : 'Administrar'}
                   </button>
                 </form>
               </div>
 
             </div>
+            {/* ⭐️ NUEVO: Contenedor para mostrar el mensaje de error */}
+            {error && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 text-red-400 font-semibold">
+                {error}
+              </motion.div>
+            )}
           </div>
         </section>
 
