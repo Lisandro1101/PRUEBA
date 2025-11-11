@@ -206,6 +206,16 @@ async function loadEventConfig(eventId) {
         if (portalSubtitle && config.texts.portal_subtitle) {
             portalSubtitle.innerHTML = config.texts.portal_subtitle;
         }
+        const memoriesSectionTitleText = document.getElementById('memories-section-title-text');
+        if (memoriesSectionTitleText && config.texts.memories_section_title) {
+            memoriesSectionTitleText.textContent = config.texts.memories_section_title;
+        }
+        const memoriesListTitleText = document.getElementById('memories-list-title-text');
+        if (memoriesListTitleText && config.texts.memories_list_title) {
+            memoriesListTitleText.textContent = config.texts.memories_list_title;
+        }
+
+
 
         // ⭐️ NUEVO: Aplicar textos de botones de juegos
         const triviaBtnText = document.getElementById('juegos-menu-trivia-text');
@@ -309,12 +319,15 @@ function renderMemories(memories) {
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
                     <span class="like-count font-semibold text-sm">${likeCount}</span>
                 </button>
+                <button data-memory-id="${memory.id}" class="comment-bubble-btn">
+                    Comentar
+                </button>
             </div>
-            <form class="comment-form mt-2">
+            <form class="comment-form mt-2 hidden">
                 <input type="hidden" name="memoryId" value="${memory.id}">
                 <div class="flex gap-2">
-                    <input type="text" name="commenterName" required placeholder="Tu Nombre" class="comment-input flex-grow" value="${GUEST_NAME}" readonly>
-                    <input type="text" name="commentText" required placeholder="Escribe un comentario..." class="comment-input flex-grow-[2]">
+                    <input type="text" name="commenterName" required placeholder="Tu Nombre" class="comment-input flex-grow-0" value="${GUEST_NAME}" readonly>
+                    <input type="text" name="commentText" required placeholder="Escribe un comentario..." class="comment-input flex-grow">
                     <button type="submit" class="comment-submit-btn">Enviar</button>
                 </div>
             </form>
@@ -365,6 +378,19 @@ document.addEventListener('click', function(e) {
             handleLike(memoryId);
         }
     }
+
+    // Manejador para el botón de "Comentar"
+    if (e.target.classList.contains('comment-bubble-btn')) {
+        e.preventDefault();
+        const memoryItemDiv = e.target.closest('.memory-item');
+        if (memoryItemDiv) {
+            const commentForm = memoryItemDiv.querySelector('.comment-form');
+            if (commentForm) {
+                commentForm.classList.remove('hidden');
+                commentForm.querySelector('input[name="commentText"]').focus();
+            }
+        }
+    }
 });
 
 document.addEventListener('submit', async function(e) {
@@ -383,6 +409,9 @@ document.addEventListener('submit', async function(e) {
         
         // ⭐️ CORREGIDO: Solo limpiar el campo del comentario, no el del nombre
         form.elements.commentText.value = '';
+
+        // Ocultar el formulario de nuevo después de enviar
+        form.classList.add('hidden');
     }
 });
 

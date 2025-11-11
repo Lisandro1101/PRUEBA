@@ -296,7 +296,11 @@ function initializeSuperAdminPanel() {
         document.getElementById('text-portal-title').value = texts.portal_title || 'Portal de Recuerdos 🍯';
         document.getElementById('text-portal-subtitle').value = texts.portal_subtitle || 'Deja un mensaje, una foto o video capturado.';
         document.getElementById('text-portal-subtitle-color').value = texts.portal_subtitle_color || '#4B5563';
+        document.getElementById('text-memories-section-title').value = texts.memories_section_title || 'Deja tu Recuerdo';
+        document.getElementById('text-memories-section-title-color').value = texts.memories_section_title_color || '#1F2937';
         document.getElementById('text-portal-subtitle-font-size').value = texts.portal_subtitle_font_size || '';
+        document.getElementById('text-memories-list-title').value = texts.memories_list_title || 'Recuerdos de la Colmena';
+        document.getElementById('text-memories-list-title-color').value = texts.memories_list_title_color || '#4B5563';
 
         // ⭐️ NUEVO: Rellenar textos de botones de juegos
         document.getElementById('text-juegos-menu-trivia').value = texts.juegos_menu_trivia || '¿Cuanto conoces a Amo?';
@@ -564,6 +568,10 @@ function initializeSuperAdminPanel() {
             portal_subtitle: document.getElementById('text-portal-subtitle').value.trim() || null,
             portal_subtitle_color: document.getElementById('text-portal-subtitle-color').value.trim() || null,
             portal_subtitle_font_size: document.getElementById('text-portal-subtitle-font-size').value.trim() || null,
+            memories_section_title: document.getElementById('text-memories-section-title').value.trim() || null,
+            memories_section_title_color: document.getElementById('text-memories-section-title-color').value.trim() || null,
+            memories_list_title: document.getElementById('text-memories-list-title').value.trim() || null,
+            memories_list_title_color: document.getElementById('text-memories-list-title-color').value.trim() || null,
             
             // ⭐️ NUEVO: Textos de botones de juegos
             juegos_menu_trivia: document.getElementById('text-juegos-menu-trivia').value.trim() || null,

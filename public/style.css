@@ -587,3 +587,48 @@ h1 {
 .comment-submit-btn:hover {
     background-color: var(--honey-gold, #F59E0B);
 }
+
+/* ⭐️ NUEVO: Estilo para el botón de burbuja de comentario */
+.comment-bubble-btn {
+    background-color: #f0f2f5; /* Un gris claro como Facebook */
+    color: #65676b; /* Texto gris oscuro */
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px; /* Lo hace una píldora/burbuja */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.comment-bubble-btn:hover {
+    background-color: #e4e6e9; /* Un gris un poco más oscuro al pasar el ratón */
+}
+
+/* ⭐️ NUEVO: Ocultar un elemento */
+.hidden {
+    display: none !important;
+}
+
+
+/* ⭐️ NUEVO: Estilo para el botón de burbuja de comentario */
+.comment-bubble-btn {
+    background-color: #f5f0f4; /* Un gris claro como Facebook */
+    color: #6b6569; /* Texto gris oscuro */
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px; /* Lo hace una píldora/burbuja */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.comment-bubble-btn:hover {
+    background-color: #e4e6e9; /* Un gris un poco más oscuro al pasar el ratón */
+}
+
+/* ⭐️ NUEVO: Ocultar un elemento */
+.hidden {
+    display: none !important;
+}
