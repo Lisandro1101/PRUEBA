@@ -150,8 +150,6 @@ async function loadThemeTemplates() {
  * Muestra una previsualización de la plantilla de tema seleccionada.
  */
 function showThemePreview() {
-    // Esta función ya depende de variables globales y puede permanecer aquí.
-    // (El código de la función no cambia, solo su ubicación)
     const previewContainer = document.getElementById('theme-preview-container');
     const themeTemplateSelector = document.getElementById('theme-template-selector');
     const selectedTemplateId = themeTemplateSelector.value;
@@ -160,7 +158,18 @@ function showThemePreview() {
         previewContainer.style.display = 'none';
         return;
     }
-    // ... (el resto del código de showThemePreview sigue aquí sin cambios)
+
+    const template = loadedThemeTemplates[selectedTemplateId];
+    const theme = template.theme || {};
+
+    document.getElementById('preview-color-primary').style.backgroundColor = theme.color_primary || '#FFFFFF';
+    document.getElementById('preview-color-secondary').style.backgroundColor = theme.color_secondary || '#FFFFFF';
+    document.getElementById('preview-color-text').style.backgroundColor = theme.color_text || '#000000';
+    document.getElementById('preview-font').style.fontFamily = theme.font_family || 'sans-serif';
+    document.getElementById('preview-button').style.backgroundColor = theme.btn_portal_bg || '#FACC15';
+    document.getElementById('preview-button').style.color = theme.btn_portal_text_color || '#1F2937';
+
+    previewContainer.style.display = 'block';
 }
 
 // ⭐️⭐️⭐️ FIN: FUNCIONES DE PLANTILLAS DE TEMAS ⭐️⭐️⭐️
@@ -298,6 +307,7 @@ function initializeSuperAdminPanel() {
         // Lista de fuentes populares de Google Fonts
         const fontList = [
             // Fuente estilo Pokémon / Retro
+            "'Pokemon Solid', sans-serif", // ⭐️ ¡NUEVA FUENTE PERSONALIZADA! ⭐️
             "'Press Start 2P', cursive",
 
             // Fuentes de Series Animadas / Caricaturas

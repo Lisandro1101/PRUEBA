@@ -1,3 +1,14 @@
+/* ⭐️ NUEVO: Declaración de la fuente de Pokémon personalizada ⭐️ */
+@font-face {
+  font-family: 'Pokemon Solid'; /* Le damos un nombre para usarla en el CSS */
+  src: url('/fonts/Pokemon-Solid.ttf') format('truetype'); /* Ruta absoluta desde la raíz del servidor. Correcta para producción y para Live Server si se inicia desde la carpeta 'public'. */
+  src: url('/fonts/Pokemon-Solid.ttf') format('truetype'); /* Esta ruta es correcta cuando el servidor sirve la carpeta 'public' como raíz. */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* Mejora el rendimiento de carga */
+}
+/* --- FIN DE LA DECLARACIÓN --- */
+
 /* --- VARIABLES DE COLOR NEUTRAS (FALLBACK) --- */
 :root {
     /* Colores base si no se definen en el admin */
