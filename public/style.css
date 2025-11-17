@@ -6,6 +6,13 @@
   font-style: normal;
   font-display: swap; /* Mejora el rendimiento de carga */
 }
+@font-face {
+  font-family: 'Lasirenita'; /* Le damos un nombre para usarla en el CSS */
+    src: url('fonts/Lasirenita.ttf') format('truetype'); /* SOLUCIÓN FINAL: Ruta relativa desde style.css */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* Mejora el rendimiento de carga */
+}
 /* --- FIN DE LA DECLARACIÓN --- */
 
 /* --- VARIABLES DE COLOR NEUTRAS (FALLBACK) --- */

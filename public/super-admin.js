@@ -309,6 +309,7 @@ function initializeSuperAdminPanel() {
         // Lista de fuentes populares de Google Fonts
         const fontList = [
             // Fuente estilo Pokémon / Retro
+            "'Lasirenita, cursive",
             "'Pokemon Solid', sans-serif", // ⭐️ ¡NUEVA FUENTE PERSONALIZADA! ⭐️
             "'Press Start 2P', cursive",
 
