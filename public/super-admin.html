@@ -240,6 +240,16 @@
             width: 100%;
         }
 
+        /* ⭐️ NUEVO: Estilo para el visualizador de código HEX ⭐️ */
+        .hex-code-display {
+            font-family: monospace;
+            background-color: #e5e7eb; /* gray-200 */
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #4b5563; /* gray-600 */
+        }
+
     </style>
 </head>
 <body>
@@ -335,29 +345,35 @@
                     <div class="flex flex-wrap gap-4 mt-2">
                         <div class="color-picker-wrapper">
                             <input type="color" id="color-primary" value="#FACC15">
-                            <span class="text-sm">Primario<br>(--color-primary)</span>
+                            <span class="text-sm">Primario</span>
+                            <code class="hex-code-display">#FACC15</code>
                         </div>
                         <div class="color-picker-wrapper">
                             <input type="color" id="color-secondary" value="#F59E0B">
-                            <span class="text-sm">Secundario<br>(--color-secondary)</span>
+                            <span class="text-sm">Secundario</span>
+                            <code class="hex-code-display">#F59E0B</code>
                         </div>
                         <div class="color-picker-wrapper">
                             <input type="color" id="color-text" value="#1F2937">
-                            <span class="text-sm">Texto<br>(--color-text)</span>
+                            <span class="text-sm">Texto</span>
+                            <code class="hex-code-display">#1F2937</code>
                         </div>
                     </div>
                      <div class="flex flex-wrap gap-4 mt-2">
                         <div class="color-picker-wrapper">
                             <input type="color" id="color-success" value="#4CAF50">
-                            <span class="text-sm">Éxito (Verde)<br>(--color-success)</span>
+                            <span class="text-sm">Éxito</span>
+                            <code class="hex-code-display">#4CAF50</code>
                         </div>
                         <div class="color-picker-wrapper">
                             <input type="color" id="color-danger" value="#E53935">
-                            <span class="text-sm">Error (Rojo)<br>(--color-danger)</span>
+                            <span class="text-sm">Error</span>
+                            <code class="hex-code-display">#E53935</code>
                         </div>
                         <div class="color-picker-wrapper">
                             <input type="color" id="color-text-light" value="#FFFFFF">
-                            <span class="text-sm">Texto Claro<br>(--color-text-light)</span>
+                            <span class="text-sm">Texto Claro</span>
+                            <code class="hex-code-display">#FFFFFF</code>
                         </div>
                     </div>
                 </div>
@@ -371,7 +387,8 @@
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="text-stroke-color" value="#000000">
-                        <span class="text-sm">Color del Contorno<br>(--text-stroke-color)</span>
+                        <span class="text-sm">Color Contorno</span>
+                        <code class="hex-code-display">#000000</code>
                     </div>
                 </div>
                 <!-- ⭐️ FIN: BLOQUE AÑADIDO ⭐️ -->
@@ -502,6 +519,7 @@
                         <div class="grid-cols-2-responsive mt-2">
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-portal-greeting-color" value="#6B7280">
+                                <code class="hex-code-display">#6B7280</code>
                                 <span class="text-sm">Color</span>
                             </div>
                             <div>
@@ -524,7 +542,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-portal-greeting-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                             <!-- ⭐️ FIN: CAMPOS AÑADIDOS PARA BIENVENIDA ⭐️ -->
@@ -536,7 +555,8 @@
                         <div class="grid-cols-2-responsive mt-2">
                             <div class="color-picker-wrapper">
                                 <input type="color" id="portal-title-color" value="#1F2937">
-                                <span class="text-sm">Color del Título</span>
+                                <span class="text-sm">Color</span>
+                                <code class="hex-code-display">#1F2937</code>
                             </div>
                             <div>
                                 <label for="portal-title-font-size" class="text-sm font-bold">Tamaño de Fuente</label>
@@ -558,7 +578,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-portal-title-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE FUENTE Y ESPACIADO ⭐️ -->
@@ -570,6 +591,7 @@
                         <div class="grid-cols-2-responsive mt-2">
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-portal-subtitle-color" value="#4B5563">
+                                <code class="hex-code-display">#4B5563</code>
                                 <span class="text-sm">Color</span>
                             </div>
                             <div>
@@ -592,7 +614,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-portal-subtitle-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE FUENTE Y ESPACIADO ⭐️ -->
@@ -604,6 +627,7 @@
                         <div class="grid-cols-2-responsive mt-2">
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-memories-section-title-color" value="#1F2937">
+                                <code class="hex-code-display">#1F2937</code>
                                 <span class="text-sm">Color</span>
                             </div>
                             <!-- ⭐️ INICIO: NUEVOS CAMPOS DE FUENTE Y ESPACIADO ⭐️ -->
@@ -622,7 +646,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-memories-section-title-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                         </div>
@@ -633,6 +658,7 @@
                         <div class="grid-cols-2-responsive mt-2">
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-memories-list-title-color" value="#4B5563">
+                                <code class="hex-code-display">#4B5563</code>
                                 <span class="text-sm">Color</span>
                             </div>
                             <!-- ⭐️ INICIO: CAMPOS AÑADIDOS ⭐️ -->
@@ -651,7 +677,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-memories-list-title-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                         </div>
@@ -699,6 +726,7 @@
                         <label for="portal-bg" class="text-sm font-bold">Color de Fondo</label>
                         <div class="color-picker-wrapper">
                             <input type="color" id="portal-bg" value="#FFFFFF">
+                            <code class="hex-code-display">#FFFFFF</code>
                         </div>
                         <div class="opacity-slider-wrapper">
                              <label for="portal-bg-opacity" class="text-sm font-bold">Opacidad Fondo (1.0 = Sólido)</label>
@@ -720,11 +748,13 @@
                 <div class="grid-cols-2-responsive mt-2">
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-portal-bg" value="#FACC15">
-                        <span class="text-sm">Color de Fondo</span>
+                        <span class="text-sm">Fondo</span>
+                        <code class="hex-code-display">#FACC15</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-portal-text-color" value="#1F2937">
-                        <span class="text-sm">Color de Texto</span>
+                        <span class="text-sm">Texto</span>
+                        <code class="hex-code-display">#1F2937</code>
                     </div>
                     <div>
                         <label for="btn-portal-border-radius" class="text-sm font-bold">Radio de Borde</s-label>
@@ -732,12 +762,14 @@
                     </div>
                      <div>
                         <label for="btn-portal-shadow-color" class="text-sm font-bold">Color de Sombra</label>
-                        <input type="color" id="btn-portal-shadow-color" value="#F59E0B">
+                        <input type="color" id="btn-portal-shadow-color" value="#F59E0B" class="w-full">
+                        <code class="hex-code-display">#F59E0B</code>
                     </div>
                     <!-- ⭐️ AÑADIR ESTE BLOQUE ⭐️ -->
                     <div>
                         <label for="btn-portal-shadow-color-hover" class="text-sm font-bold">Color Sombra (Hover)</label>
-                        <input type="color" id="btn-portal-shadow-color-hover" value="#dd6b20">
+                        <input type="color" id="btn-portal-shadow-color-hover" value="#dd6b20" class="w-full">
+                        <code class="hex-code-display">#dd6b20</code>
                     </div>
                     <!-- ⭐️ FIN DEL BLOQUE A AÑADIR ⭐️ -->
                     <div>
@@ -752,19 +784,23 @@
                     <div class="grid-cols-2-responsive mt-2">
                         <div class="color-picker-wrapper">
                             <input type="color" id="btn-juegos-menu-bg" value="#66BB6A">
-                            <span class="text-sm">Color de Fondo</span>
+                            <span class="text-sm">Fondo</span>
+                            <code class="hex-code-display">#66BB6A</code>
                         </div>
                         <div class="color-picker-wrapper">
                             <input type="color" id="btn-juegos-menu-text-color" value="#FFFFFF">
-                            <span class="text-sm">Color de Texto</span>
+                            <span class="text-sm">Texto</span>
+                            <code class="hex-code-display">#FFFFFF</code>
                         </div>
                         <div class="color-picker-wrapper">
                             <input type="color" id="btn-juegos-menu-border-color" value="#388E3C">
-                            <span class="text-sm">Color de Borde</span>
+                            <span class="text-sm">Borde</span>
+                            <code class="hex-code-display">#388E3C</code>
                         </div>
                         <div class="color-picker-wrapper">
                             <input type="color" id="btn-juegos-menu-shadow-color" value="#388E3C">
-                            <span class="text-sm">Color de Sombra</span>
+                            <span class="text-sm">Sombra</span>
+                            <code class="hex-code-display">#388E3C</code>
                         </div>
                         <div>
                             <label for="btn-juegos-menu-border-radius" class="text-sm font-bold">Radio de Borde</label>
@@ -809,6 +845,7 @@
                         <label for="trivia-container-bg" class="text-sm font-bold">Color de Fondo</label>
                         <div class="color-picker-wrapper">
                             <input type="color" id="trivia-container-bg" value="#FFFFFF">
+                            <code class="hex-code-display">#FFFFFF</code>
                         </div>
                         <div class="opacity-slider-wrapper">
                              <label for="trivia-container-bg-opacity" class="text-sm font-bold">Opacidad Fondo</label>
@@ -848,7 +885,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-trivia-title-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                         </div>
@@ -872,7 +910,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-trivia-welcome-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                         </div>
@@ -894,23 +933,28 @@
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-trivia-bg" value="#ffb300">
-                        <span class="text-sm">Fondo (Normal)</span>
+                        <span class="text-sm">Fondo</span>
+                        <code class="hex-code-display">#ffb300</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-trivia-bg-hover" value="#ff9900">
                         <span class="text-sm">Fondo (Hover)</span>
+                        <code class="hex-code-display">#ff9900</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-trivia-text-color" value="#FFFFFF">
-                        <span class="text-sm">Color de Texto</span>
+                        <span class="text-sm">Texto</span>
+                        <code class="hex-code-display">#FFFFFF</code>
                     </div>
                      <div class="color-picker-wrapper">
                         <input type="color" id="btn-trivia-border-color" value="#e69900">
-                        <span class="text-sm">Color de Borde</span>
+                        <span class="text-sm">Borde</span>
+                        <code class="hex-code-display">#e69900</code>
                     </div>
                      <div class="color-picker-wrapper">
                         <input type="color" id="btn-trivia-shadow-color" value="#e69900">
-                        <span class="text-sm">Color de Sombra</span>
+                        <span class="text-sm">Sombra</span>
+                        <code class="hex-code-display">#e69900</code>
                     </div>
                     <div>
                         <label for="btn-trivia-border-radius" class="text-sm font-bold">Radio de Borde (Forma)</label>
@@ -937,6 +981,7 @@
                         <label for="memory-container-bg" class="text-sm font-bold">Color de Fondo</label>
                         <div class="color-picker-wrapper">
                             <input type="color" id="memory-container-bg" value="#FFFFFF">
+                            <code class="hex-code-display">#FFFFFF</code>
                         </div>
                         <div class="opacity-slider-wrapper">
                              <label for="memory-container-bg-opacity" class="text-sm font-bold">Opacidad Fondo</label>
@@ -976,7 +1021,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-memory-title-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                         </div>
@@ -986,11 +1032,13 @@
                 <div class="grid-cols-2-responsive mt-2">
                     <div class="color-picker-wrapper">
                         <input type="color" id="mem-card-back-bg" value="#F59E0B">
-                        <span class="text-sm">Fondo (Reverso)</span>
+                        <span class="text-sm">Fondo Reverso</span>
+                        <code class="hex-code-display">#F59E0B</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="mem-card-back-border-color" value="#1F2937">
-                        <span class="text-sm">Borde (Reverso)</span>
+                        <span class="text-sm">Borde Reverso</span>
+                        <code class="hex-code-display">#1F2937</code>
                     </div>
                     <div>
                         <label for="mem-card-height" class="text-sm font-bold">Altura de la Carta</label>
@@ -1012,6 +1060,7 @@
                         <label for="hangman-container-bg" class="text-sm font-bold">Color de Fondo</label>
                         <div class="color-picker-wrapper">
                             <input type="color" id="hangman-container-bg" value="#FFFFFF">
+                            <code class="hex-code-display">#FFFFFF</code>
                         </div>
                         <div class="opacity-slider-wrapper">
                              <label for="hangman-container-bg-opacity" class="text-sm font-bold">Opacidad Fondo</label>
@@ -1051,7 +1100,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-hangman-title-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                         </div>
@@ -1075,7 +1125,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-hangman-subtitle-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                         </div>
@@ -1086,19 +1137,23 @@
                 <div class="grid-cols-2-responsive mt-2">
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-hangman-bg" value="#FACC15">
-                        <span class="text-sm">Fondo</span>
+                        <span class="text-sm">Fondo Tecla</span>
+                        <code class="hex-code-display">#FACC15</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-hangman-text-color" value="#1F2937">
-                        <span class="text-sm">Texto</span>
+                        <span class="text-sm">Texto Tecla</span>
+                        <code class="hex-code-display">#1F2937</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-hangman-border-color" value="#F59E0B">
-                        <span class="text-sm">Borde</span>
+                        <span class="text-sm">Borde Tecla</span>
+                        <code class="hex-code-display">#F59E0B</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-hangman-shadow-color" value="#F59E0B">
-                        <span class="text-sm">Sombra</span>
+                        <span class="text-sm">Sombra Tecla</span>
+                        <code class="hex-code-display">#F59E0B</code>
                     </div>
                 </div>
             </details>
@@ -1113,7 +1168,8 @@
                         <!-- ⭐️ INICIO: CAMPO AÑADIDO ⭐️ -->
                         <div class="color-picker-wrapper mb-2">
                             <input type="color" id="text-ranking-title-color" value="#1F2937">
-                            <span class="text-sm">Color del Título</span>
+                            <span class="text-sm">Color</span>
+                            <code class="hex-code-display">#1F2937</code>
                         </div>
                         <input type="text" id="text-ranking-title" class="input-field" placeholder="Rankings de la Colmena 🏆">
                         <div class="grid-cols-2-responsive mt-2">
@@ -1137,7 +1193,8 @@
                             </div>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="text-ranking-title-stroke-color" value="#000000">
-                                <span class="text-sm">Color Contorno</span>
+                                <span class="text-sm">Contorno</span>
+                                <code class="hex-code-display">#000000</code>
                             </div>
                             <!-- ⭐️ FIN: NUEVOS CAMPOS DE CONTORNO ⭐️ -->
                         </div>
@@ -1147,6 +1204,7 @@
                             <label for="ranking-container-bg" class="text-sm font-bold">Color de Fondo del Contenedor</label>
                             <div class="color-picker-wrapper">
                                 <input type="color" id="ranking-container-bg" value="#FFFFFF">
+                                <code class="hex-code-display">#FFFFFF</code>
                             </div>
                             <div class="opacity-slider-wrapper">
                                  <label for="ranking-container-bg-opacity" class="text-sm font-bold">Opacidad Fondo</label>
@@ -1166,14 +1224,17 @@
                     <div class="color-picker-wrapper">
                         <input type="color" id="ranking-trivia-winner-bg" value="#FFCC00">
                         <span class="text-sm">Fondo</span>
+                        <code class="hex-code-display">#FFCC00</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="ranking-trivia-winner-text" value="#1F2937">
                         <span class="text-sm">Texto</span>
+                        <code class="hex-code-display">#1F2937</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="ranking-trivia-winner-border" value="#F59E0B">
                         <span class="text-sm">Borde</span>
+                        <code class="hex-code-display">#F59E0B</code>
                     </div>
                 </div>
                 
@@ -1182,14 +1243,17 @@
                     <div class="color-picker-wrapper">
                         <input type="color" id="ranking-memory-winner-bg" value="#cceeff">
                         <span class="text-sm">Fondo</span>
+                        <code class="hex-code-display">#cceeff</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="ranking-memory-winner-text" value="#0056b3">
                         <span class="text-sm">Texto</span>
+                        <code class="hex-code-display">#0056b3</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="ranking-memory-winner-border" value="#007bff">
                         <span class="text-sm">Borde</span>
+                        <code class="hex-code-display">#007bff</code>
                     </div>
                 </div>
             </details>
@@ -1203,6 +1267,7 @@
                         <label for="host-container-bg" class="text-sm font-bold">Color de Fondo</label>
                         <div class="color-picker-wrapper">
                             <input type="color" id="host-container-bg" value="#FFFFFF">
+                            <code class="hex-code-display">#FFFFFF</code>
                         </div>
                     </div>
                     <div>
@@ -1233,14 +1298,17 @@
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-host-bg" value="#1F2937">
                         <span class="text-sm">Fondo</span>
+                        <code class="hex-code-display">#1F2937</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-host-text-color" value="#FACC15">
                         <span class="text-sm">Texto</span>
+                        <code class="hex-code-display">#FACC15</code>
                     </div>
                     <div class="color-picker-wrapper">
                         <input type="color" id="btn-host-border-color" value="#FACC15">
-                        <span class="text-sm">Borde y Sombra</span>
+                        <span class="text-sm">Borde/Sombra</span>
+                        <code class="hex-code-display">#FACC15</code>
                     </div>
                 </div>
             </details>

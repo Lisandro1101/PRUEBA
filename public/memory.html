@@ -180,10 +180,13 @@
             <p class="mb-4">Ingresa tu nombre para comenzar a encontrar las parejas:</p>
             
             <label for="player-name-input" style="display: block; font-weight: bold; margin-bottom: 5px;">Tu Nombre de Jugador:</label>
-
-            <input type="text" id="player-name-input" class="text-input" placeholder="Tu Nombre" maxlength="20">
             
-            <button id="start-btn" class="save-btn mt-4" style="background: var(--honey-gold);">¡Comenzar!</button>
+            <!-- ⭐️ SOLUCIÓN: Se aplican los mismos estilos que en los otros juegos -->
+            <input type="text" id="player-name-input" class="text-input" placeholder="Tu Nombre" maxlength="20"
+                   style="width: 100%; box-sizing: border-box; padding: 10px; margin-bottom: 15px; border: 2px solid var(--bee-yellow); border-radius: 5px;">
+            
+            <!-- ⭐️ SOLUCIÓN: Se usan las clases de botón consistentes -->
+            <button id="start-btn" class="btn-portal btn-trivia mt-4">¡Comenzar!</button>
 
             <div style="text-align: center; margin-top: 20px;">
                 <button onclick="window.location.href='index.html'" style="background: none; border: none; color: #666; font-size: 0.9em; cursor: pointer;">

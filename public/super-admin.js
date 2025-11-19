@@ -174,6 +174,27 @@ function showThemePreview() {
     previewContainer.style.display = 'block';
 }
 
+/**
+ * ⭐️ NUEVO: Inicializa los listeners para los visualizadores de código HEX.
+ * Busca todos los inputs de color y actualiza el `<code>` adyacente.
+ */
+function initializeHexDisplays() {
+    // Selecciona todos los wrappers de selectores de color
+    const colorPickerWrappers = document.querySelectorAll('.color-picker-wrapper');
+
+    colorPickerWrappers.forEach(wrapper => {
+        const colorInput = wrapper.querySelector('input[type="color"]');
+        const hexDisplay = wrapper.querySelector('.hex-code-display');
+
+        if (colorInput && hexDisplay) {
+            // Listener para actualizar el texto cuando el color cambia
+            colorInput.addEventListener('input', (event) => {
+                hexDisplay.textContent = event.target.value.toUpperCase();
+            });
+        }
+    });
+}
+
 // ⭐️⭐️⭐️ FIN: FUNCIONES DE PLANTILLAS DE TEMAS ⭐️⭐️⭐️
 
 
@@ -378,6 +399,7 @@ const applyTemplateBtn = document.getElementById('apply-template-btn');
     populateFontDatalist(); // ⭐️ NUEVO: Llenar el datalist de fuentes
     themeTemplateSelector.addEventListener('change', showThemePreview); // ⭐️ NUEVO: Evento para previsualizar
     loadThemeTemplates(); // Cargar plantillas al iniciar el panel
+    initializeHexDisplays(); // ⭐️ NUEVO: Activar los visualizadores de HEX
     applyTemplateBtn.addEventListener('click', applyThemeTemplate);
 
 
@@ -452,6 +474,12 @@ const applyTemplateBtn = document.getElementById('apply-template-btn');
         document.getElementById('auth-event-username').value = authConfig.username || '';
         document.getElementById('auth-event-password').value = authConfig.password || '';
 
+        // ⭐️ NUEVO: Actualizar todos los visualizadores HEX al cargar un evento
+        document.querySelectorAll('.color-picker-wrapper').forEach(wrapper => {
+            const colorInput = wrapper.querySelector('input[type="color"]');
+            const hexDisplay = wrapper.querySelector('.hex-code-display');
+            if (colorInput && hexDisplay) hexDisplay.textContent = colorInput.value.toUpperCase();
+        });
         document.getElementById('color-primary').value = theme.color_primary || '#FACC15';
         document.getElementById('color-secondary').value = theme.color_secondary || '#F59E0B';
         document.getElementById('color-text').value = theme.color_text || '#1F2937';

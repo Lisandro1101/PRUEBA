@@ -474,7 +474,7 @@ h1 {
     top: 15px;
     right: 15px;
     font-size: 2.5rem; /* Tamaño del emoji */
-    background-color: var(--btn-portal-bg, rgba(255, 255, 255, 0.85)); /* ⭐️ CORRECCIÓN: Usa la variable del tema */
+    background-color: transparent; /* ⭐️ SOLUCIÓN: Fondo transparente */
     border-radius: 50%; /* Lo hace redondo */
     width: 60px;
     height: 60px;
@@ -483,7 +483,7 @@ h1 {
     align-items: center;
     text-decoration: none;
     z-index: 1001; /* Asegura que esté por encima del menú */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: none; /* ⭐️ SOLUCIÓN: Sin sombra */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-shadow: none; /* Quita el text-shadow de la regla global */
 }
