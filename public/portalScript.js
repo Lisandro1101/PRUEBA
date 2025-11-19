@@ -246,6 +246,10 @@ async function loadEventConfig(eventId) {
             // ⭐️ CORRECCIÓN: Aplicar estilos de fuente y espaciado
             if (config.texts.portal_greeting_font_family) portalGreeting.style.fontFamily = config.texts.portal_greeting_font_family;
             if (config.texts.portal_greeting_letter_spacing) portalGreeting.style.letterSpacing = config.texts.portal_greeting_letter_spacing;
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if (config.texts.portal_greeting_stroke_width && config.texts.portal_greeting_stroke_color) {
+                portalGreeting.style.webkitTextStroke = `${config.texts.portal_greeting_stroke_width} ${config.texts.portal_greeting_stroke_color}`;
+            }
         }
 
         const portalTitle = document.getElementById('portal-title-text');
@@ -254,6 +258,10 @@ async function loadEventConfig(eventId) {
             // ⭐️ CORRECCIÓN: Aplicar estilos de fuente y espaciado
             if (config.texts.portal_title_font_family) portalTitle.style.fontFamily = config.texts.portal_title_font_family;
             if (config.texts.portal_title_letter_spacing) portalTitle.style.letterSpacing = config.texts.portal_title_letter_spacing;
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if (config.texts.portal_title_stroke_width && config.texts.portal_title_stroke_color) {
+                portalTitle.style.webkitTextStroke = `${config.texts.portal_title_stroke_width} ${config.texts.portal_title_stroke_color}`;
+            }
         }
 
         const portalSubtitle = document.getElementById('portal-subtitle-text');
@@ -262,6 +270,10 @@ async function loadEventConfig(eventId) {
             // ⭐️ CORRECCIÓN: Aplicar estilos de fuente y espaciado
             if (config.texts.portal_subtitle_font_family) portalSubtitle.style.fontFamily = config.texts.portal_subtitle_font_family;
             if (config.texts.portal_subtitle_letter_spacing) portalSubtitle.style.letterSpacing = config.texts.portal_subtitle_letter_spacing;
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if (config.texts.portal_subtitle_stroke_width && config.texts.portal_subtitle_stroke_color) {
+                portalSubtitle.style.webkitTextStroke = `${config.texts.portal_subtitle_stroke_width} ${config.texts.portal_subtitle_stroke_color}`;
+            }
         }
 
         const memoriesSectionTitleText = document.getElementById('memories-section-title-text');
@@ -270,6 +282,10 @@ async function loadEventConfig(eventId) {
             // ⭐️ CORRECCIÓN: Aplicar estilos de fuente y espaciado
             if (config.texts.memories_section_title_font_family) memoriesSectionTitleText.style.fontFamily = config.texts.memories_section_title_font_family;
             if (config.texts.memories_section_title_letter_spacing) memoriesSectionTitleText.style.letterSpacing = config.texts.memories_section_title_letter_spacing;
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if (config.texts.memories_section_title_stroke_width && config.texts.memories_section_title_stroke_color) {
+                memoriesSectionTitleText.style.webkitTextStroke = `${config.texts.memories_section_title_stroke_width} ${config.texts.memories_section_title_stroke_color}`;
+            }
         }
 
         const memoriesListTitleText = document.getElementById('memories-list-title-text');
@@ -278,6 +294,10 @@ async function loadEventConfig(eventId) {
             // ⭐️ CORRECCIÓN: Aplicar estilos directamente al elemento.
             if (config.texts.memories_list_title_font_family) memoriesListTitleText.style.fontFamily = config.texts.memories_list_title_font_family; // Aplicar fuente
             if (config.texts.memories_list_title_letter_spacing) memoriesListTitleText.style.letterSpacing = config.texts.memories_list_title_letter_spacing; // Aplicar espaciado
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if (config.texts.memories_list_title_stroke_width && config.texts.memories_list_title_stroke_color) {
+                memoriesListTitleText.style.webkitTextStroke = `${config.texts.memories_list_title_stroke_width} ${config.texts.memories_list_title_stroke_color}`;
+            }
         }
 
 

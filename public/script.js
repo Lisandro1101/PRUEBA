@@ -298,6 +298,12 @@ async function loadEventConfig(eventId) {
             // ⭐️ CORRECCIÓN DEFINITIVA: Aplicar estilos de fuente y espaciado
             if(config.texts.trivia_title_font_family) triviaTitle.style.fontFamily = config.texts.trivia_title_font_family;
             if(config.texts.trivia_title_letter_spacing) triviaTitle.style.letterSpacing = config.texts.trivia_title_letter_spacing;
+            // ⭐️ NUEVO: Aplicar tamaño de fuente
+            if(config.texts.trivia_title_font_size) triviaTitle.style.fontSize = config.texts.trivia_title_font_size;
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if(config.texts.trivia_title_stroke_width && config.texts.trivia_title_stroke_color) {
+                triviaTitle.style.webkitTextStroke = `${config.texts.trivia_title_stroke_width} ${config.texts.trivia_title_stroke_color}`;
+            }
         }
 
         const triviaWelcome = document.getElementById('trivia-welcome-text');
@@ -306,6 +312,10 @@ async function loadEventConfig(eventId) {
             // ⭐️ CORRECCIÓN DEFINITIVA: Aplicar estilos de fuente y espaciado
             if(config.texts.trivia_welcome_font_family) triviaWelcome.style.fontFamily = config.texts.trivia_welcome_font_family;
             if(config.texts.trivia_welcome_letter_spacing) triviaWelcome.style.letterSpacing = config.texts.trivia_welcome_letter_spacing;
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if(config.texts.trivia_welcome_stroke_width && config.texts.trivia_welcome_stroke_color) {
+                triviaWelcome.style.webkitTextStroke = `${config.texts.trivia_welcome_stroke_width} ${config.texts.trivia_welcome_stroke_color}`;
+            }
         }
 
         const triviaSubtitle = document.getElementById('trivia-subtitle-text');
@@ -318,6 +328,12 @@ async function loadEventConfig(eventId) {
             // ⭐️ CORRECCIÓN DEFINITIVA: Aplicar estilos de fuente y espaciado
             if(config.texts.memory_title_font_family) memoryTitle.style.fontFamily = config.texts.memory_title_font_family;
             if(config.texts.memory_title_letter_spacing) memoryTitle.style.letterSpacing = config.texts.memory_title_letter_spacing;
+            // ⭐️ NUEVO: Aplicar tamaño de fuente
+            if(config.texts.memory_title_font_size) memoryTitle.style.fontSize = config.texts.memory_title_font_size;
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if(config.texts.memory_title_stroke_width && config.texts.memory_title_stroke_color) {
+                memoryTitle.style.webkitTextStroke = `${config.texts.memory_title_stroke_width} ${config.texts.memory_title_stroke_color}`;
+            }
         }
 
         // ⭐️ NUEVO: Textos de Ahorcado
@@ -327,6 +343,12 @@ async function loadEventConfig(eventId) {
             // ⭐️ CORRECCIÓN DEFINITIVA: Aplicar estilos de fuente y espaciado
             if(config.texts.hangman_title_font_family) hangmanTitle.style.fontFamily = config.texts.hangman_title_font_family;
             if(config.texts.hangman_title_letter_spacing) hangmanTitle.style.letterSpacing = config.texts.hangman_title_letter_spacing;
+            // ⭐️ NUEVO: Aplicar tamaño de fuente
+            if(config.texts.hangman_title_font_size) hangmanTitle.style.fontSize = config.texts.hangman_title_font_size;
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if(config.texts.hangman_title_stroke_width && config.texts.hangman_title_stroke_color) {
+                hangmanTitle.style.webkitTextStroke = `${config.texts.hangman_title_stroke_width} ${config.texts.hangman_title_stroke_color}`;
+            }
         }
 
         const hangmanSubtitle = document.getElementById('hangman-subtitle-text');
@@ -335,6 +357,10 @@ async function loadEventConfig(eventId) {
             // ⭐️ CORRECCIÓN DEFINITIVA: Aplicar estilos de fuente y espaciado
             if(config.texts.hangman_subtitle_font_family) hangmanSubtitle.style.fontFamily = config.texts.hangman_subtitle_font_family;
             if(config.texts.hangman_subtitle_letter_spacing) hangmanSubtitle.style.letterSpacing = config.texts.hangman_subtitle_letter_spacing;
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if(config.texts.hangman_subtitle_stroke_width && config.texts.hangman_subtitle_stroke_color) {
+                hangmanSubtitle.style.webkitTextStroke = `${config.texts.hangman_subtitle_stroke_width} ${config.texts.hangman_subtitle_stroke_color}`;
+            }
         }
 
         // ⭐️ NUEVO: Textos de Ranking
@@ -352,6 +378,10 @@ async function loadEventConfig(eventId) {
             if (config.texts.ranking_title_letter_spacing) rankingTitle.style.letterSpacing = config.texts.ranking_title_letter_spacing;
             if (config.texts.ranking_title_font_size) rankingTitle.style.fontSize = config.texts.ranking_title_font_size;
             if (config.texts.ranking_title_color) rankingTitle.style.color = config.texts.ranking_title_color;
+            // ⭐️ NUEVO: Aplicar contorno específico
+            if (config.texts.ranking_title_stroke_width && config.texts.ranking_title_stroke_color) {
+                rankingTitle.style.webkitTextStroke = `${config.texts.ranking_title_stroke_width} ${config.texts.ranking_title_stroke_color}`;
+            }
         }
 
         // ⭐️ NUEVO: Textos de Anfitrión
