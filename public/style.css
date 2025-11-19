@@ -474,7 +474,7 @@ h1 {
     top: 15px;
     right: 15px;
     font-size: 2.5rem; /* Tamaño del emoji */
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: var(--btn-portal-bg, rgba(255, 255, 255, 0.85)); /* ⭐️ CORRECCIÓN: Usa la variable del tema */
     border-radius: 50%; /* Lo hace redondo */
     width: 60px;
     height: 60px;

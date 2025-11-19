@@ -242,7 +242,8 @@ async function loadEventConfig(eventId) {
     if (config.texts) {
         const portalGreeting = document.getElementById('portal-greeting-text');
         if (portalGreeting) {
-            portalGreeting.innerHTML = config.texts.portal_greeting || '';
+            portalGreeting.innerHTML = config.texts.portal_greeting || '¡Bienvenido!';
+            // ⭐️ CORRECCIÓN: Aplicar estilos de fuente y espaciado
             if (config.texts.portal_greeting_font_family) portalGreeting.style.fontFamily = config.texts.portal_greeting_font_family;
             if (config.texts.portal_greeting_letter_spacing) portalGreeting.style.letterSpacing = config.texts.portal_greeting_letter_spacing;
         }
@@ -250,22 +251,25 @@ async function loadEventConfig(eventId) {
         const portalTitle = document.getElementById('portal-title-text');
         if (portalTitle) {
             portalTitle.innerHTML = config.texts.portal_title || '';
-            if(config.texts.portal_title_font_family) portalTitle.style.fontFamily = config.texts.portal_title_font_family;
-            if(config.texts.portal_title_letter_spacing) portalTitle.style.letterSpacing = config.texts.portal_title_letter_spacing;
+            // ⭐️ CORRECCIÓN: Aplicar estilos de fuente y espaciado
+            if (config.texts.portal_title_font_family) portalTitle.style.fontFamily = config.texts.portal_title_font_family;
+            if (config.texts.portal_title_letter_spacing) portalTitle.style.letterSpacing = config.texts.portal_title_letter_spacing;
         }
 
         const portalSubtitle = document.getElementById('portal-subtitle-text');
         if (portalSubtitle) {
             portalSubtitle.innerHTML = config.texts.portal_subtitle || '';
-            if(config.texts.portal_subtitle_font_family) portalSubtitle.style.fontFamily = config.texts.portal_subtitle_font_family;
-            if(config.texts.portal_subtitle_letter_spacing) portalSubtitle.style.letterSpacing = config.texts.portal_subtitle_letter_spacing;
+            // ⭐️ CORRECCIÓN: Aplicar estilos de fuente y espaciado
+            if (config.texts.portal_subtitle_font_family) portalSubtitle.style.fontFamily = config.texts.portal_subtitle_font_family;
+            if (config.texts.portal_subtitle_letter_spacing) portalSubtitle.style.letterSpacing = config.texts.portal_subtitle_letter_spacing;
         }
 
         const memoriesSectionTitleText = document.getElementById('memories-section-title-text');
         if (memoriesSectionTitleText) {
             memoriesSectionTitleText.textContent = config.texts.memories_section_title || '';
-            if(config.texts.memories_section_title_font_family) memoriesSectionTitleText.style.fontFamily = config.texts.memories_section_title_font_family;
-            if(config.texts.memories_section_title_letter_spacing) memoriesSectionTitleText.style.letterSpacing = config.texts.memories_section_title_letter_spacing;
+            // ⭐️ CORRECCIÓN: Aplicar estilos de fuente y espaciado
+            if (config.texts.memories_section_title_font_family) memoriesSectionTitleText.style.fontFamily = config.texts.memories_section_title_font_family;
+            if (config.texts.memories_section_title_letter_spacing) memoriesSectionTitleText.style.letterSpacing = config.texts.memories_section_title_letter_spacing;
         }
 
         const memoriesListTitleText = document.getElementById('memories-list-title-text');

@@ -600,6 +600,8 @@ const applyTemplateBtn = document.getElementById('apply-template-btn');
         document.getElementById('text-ranking-title-letter-spacing').value = texts.ranking_title_letter_spacing || '';
         // ⭐️ NUEVO: Rellenar el campo de tamaño de fuente del ranking
         document.getElementById('text-ranking-title-font-size').value = texts.ranking_title_font_size || '';
+        // ⭐️ NUEVO: Rellenar el campo de color del título del ranking
+        document.getElementById('text-ranking-title-color').value = texts.ranking_title_color || '#1F2937';
 
         // Rellenar Personalización de Rankings (Ganadores)
         document.getElementById('ranking-trivia-winner-bg').value = theme.ranking_trivia_winner_bg || '#FFCC00';
@@ -875,6 +877,8 @@ const applyTemplateBtn = document.getElementById('apply-template-btn');
             ranking_title_letter_spacing: document.getElementById('text-ranking-title-letter-spacing').value.trim() || null,
             // ⭐️ NUEVO: Guardar el tamaño de fuente del ranking
             ranking_title_font_size: document.getElementById('text-ranking-title-font-size').value.trim() || null,
+            // ⭐️ NUEVO: Guardar el color del título del ranking
+            ranking_title_color: document.getElementById('text-ranking-title-color').value.trim() || null,
 
             // ⭐️ NUEVO: Textos de Anfitrión
             host_login_title: document.getElementById('text-host-login-title').value.trim() || null,

@@ -295,6 +295,7 @@ async function loadEventConfig(eventId) {
         const triviaTitle = document.getElementById('trivia-title-text');
         if (triviaTitle) {
             triviaTitle.innerHTML = config.texts.trivia_title || '';
+            // ⭐️ CORRECCIÓN DEFINITIVA: Aplicar estilos de fuente y espaciado
             if(config.texts.trivia_title_font_family) triviaTitle.style.fontFamily = config.texts.trivia_title_font_family;
             if(config.texts.trivia_title_letter_spacing) triviaTitle.style.letterSpacing = config.texts.trivia_title_letter_spacing;
         }
@@ -302,19 +303,19 @@ async function loadEventConfig(eventId) {
         const triviaWelcome = document.getElementById('trivia-welcome-text');
         if (triviaWelcome) {
             triviaWelcome.innerHTML = config.texts.trivia_welcome || '';
+            // ⭐️ CORRECCIÓN DEFINITIVA: Aplicar estilos de fuente y espaciado
             if(config.texts.trivia_welcome_font_family) triviaWelcome.style.fontFamily = config.texts.trivia_welcome_font_family;
             if(config.texts.trivia_welcome_letter_spacing) triviaWelcome.style.letterSpacing = config.texts.trivia_welcome_letter_spacing;
         }
 
         const triviaSubtitle = document.getElementById('trivia-subtitle-text');
-        if (triviaSubtitle && config.texts.trivia_subtitle) {
-            triviaSubtitle.innerHTML = config.texts.trivia_subtitle || '';
-        }
+        if (triviaSubtitle) triviaSubtitle.innerHTML = config.texts.trivia_subtitle || ''; // Este no tiene personalización de fuente
 
         // Textos de Memoria
         const memoryTitle = document.getElementById('memory-title-text');
         if (memoryTitle) {
             memoryTitle.innerHTML = config.texts.memory_title || '';
+            // ⭐️ CORRECCIÓN DEFINITIVA: Aplicar estilos de fuente y espaciado
             if(config.texts.memory_title_font_family) memoryTitle.style.fontFamily = config.texts.memory_title_font_family;
             if(config.texts.memory_title_letter_spacing) memoryTitle.style.letterSpacing = config.texts.memory_title_letter_spacing;
         }
@@ -323,6 +324,7 @@ async function loadEventConfig(eventId) {
         const hangmanTitle = document.getElementById('hangman-title-text');
         if (hangmanTitle) {
             hangmanTitle.innerHTML = config.texts.hangman_title || '';
+            // ⭐️ CORRECCIÓN DEFINITIVA: Aplicar estilos de fuente y espaciado
             if(config.texts.hangman_title_font_family) hangmanTitle.style.fontFamily = config.texts.hangman_title_font_family;
             if(config.texts.hangman_title_letter_spacing) hangmanTitle.style.letterSpacing = config.texts.hangman_title_letter_spacing;
         }
@@ -330,6 +332,7 @@ async function loadEventConfig(eventId) {
         const hangmanSubtitle = document.getElementById('hangman-subtitle-text');
         if (hangmanSubtitle) {
             hangmanSubtitle.innerHTML = config.texts.hangman_subtitle || '';
+            // ⭐️ CORRECCIÓN DEFINITIVA: Aplicar estilos de fuente y espaciado
             if(config.texts.hangman_subtitle_font_family) hangmanSubtitle.style.fontFamily = config.texts.hangman_subtitle_font_family;
             if(config.texts.hangman_subtitle_letter_spacing) hangmanSubtitle.style.letterSpacing = config.texts.hangman_subtitle_letter_spacing;
         }
@@ -342,6 +345,7 @@ async function loadEventConfig(eventId) {
             if (config.texts.ranking_title_font_family) rankingTitle.style.fontFamily = config.texts.ranking_title_font_family;
             if (config.texts.ranking_title_letter_spacing) rankingTitle.style.letterSpacing = config.texts.ranking_title_letter_spacing;
             if (config.texts.ranking_title_font_size) rankingTitle.style.fontSize = config.texts.ranking_title_font_size;
+            if (config.texts.ranking_title_color) rankingTitle.style.color = config.texts.ranking_title_color;
         }
 
         // ⭐️ NUEVO: Textos de Anfitrión
