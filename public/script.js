@@ -1616,6 +1616,31 @@ async function convertUrlToDataURL(url) {
 }
 
 /**
+ * ⭐️ NUEVO: Función para buscar y convertir fuentes locales a Base64 dentro de un texto CSS.
+ * @param {string} cssText - El contenido del archivo style.css.
+ * @returns {Promise<string>} El texto CSS con las fuentes incrustadas.
+ */
+async function embedFontsInCSS(cssText) {
+    // Expresión regular para encontrar todas las declaraciones @font-face con url().
+    const fontFaceRegex = /@font-face\s*\{[^\}]*url\(['"]?([^'"]+)['"]?\)[^\}]*\}/g;
+    const fontPromises = [];
+    
+    // Busca todas las coincidencias.
+    cssText.replace(fontFaceRegex, (match, url) => {
+        const promise = convertUrlToDataURL(url)
+            .then(dataUrl => ({ originalUrl: url, dataUrl }))
+            .catch(err => {
+                console.warn(`No se pudo incrustar la fuente: ${url}`, err);
+                return null; // Si falla, no reemplazamos nada.
+            });
+        fontPromises.push(promise);
+    });
+
+    const resolvedFonts = await Promise.all(fontPromises);
+    resolvedFonts.forEach(font => font && (cssText = cssText.replace(font.originalUrl, font.dataUrl)));
+    return cssText;
+}
+/**
  * Función principal para exportar los recuerdos de un evento a un archivo HTML estático.
  * @param {string} eventId - El ID del evento a exportar.
  */
@@ -1630,6 +1655,12 @@ async function exportMemoriesToHTML(eventId) {
         const configRef = ref(database, `events/${eventId}/config`);
         const memoriesRef = ref(database, `events/${eventId}/data/memories`);
 
+        // ⭐️ NUEVO: Obtener el contenido de style.css
+        const styleSheetResponse = await fetch('style.css');
+        let styleSheetText = await styleSheetResponse.text();
+
+        // ⭐️ NUEVO: Incrustar las fuentes personalizadas en el CSS
+        styleSheetText = await embedFontsInCSS(styleSheetText);
         const [configSnapshot, memoriesSnapshot] = await Promise.all([get(configRef), get(memoriesRef)]);
 
         if (!memoriesSnapshot.exists()) {
@@ -1705,6 +1736,90 @@ async function exportMemoriesToHTML(eventId) {
             }
         `;
 
+        // ⭐️ NUEVO: Generar HTML para los stickers
+        let stickersHtml = '';
+        const addSticker = (sticker) => {
+            if (!sticker || !sticker.url) return;
+            let style = `position: fixed; z-index: -1; pointer-events: none;`;
+            if (sticker.width) style += ` width: ${sticker.width};`;
+            if (sticker.transform) style += ` transform: ${sticker.transform};`;
+            if (sticker.top) style += ` top: ${sticker.top};`;
+            if (sticker.bottom) style += ` bottom: ${sticker.bottom};`;
+            if (sticker.left) style += ` left: ${sticker.left};`;
+            if (sticker.right) style += ` right: ${sticker.right};`;
+            stickersHtml += `<img src="${sticker.url}" style="${style}">`;
+        };
+
+        // ⭐️ INICIO DE LA SOLUCIÓN MEJORADA: Generar un script de personalización completo ⭐️
+        let dynamicApplicationScript = `
+            document.addEventListener('DOMContentLoaded', () => {
+                const applyStyle = (elementId, styles) => {
+                    const element = document.getElementById(elementId);
+                    if (!element) return;
+                    
+                    if (styles.text) element.textContent = styles.text;
+                    if (styles.fontFamily && styles.fontFamily !== 'null') element.style.fontFamily = styles.fontFamily;
+                    if (styles.letterSpacing && styles.letterSpacing !== 'null') element.style.letterSpacing = styles.letterSpacing;
+                    if (styles.fontSize && styles.fontSize !== 'null') element.style.fontSize = styles.fontSize;
+                    if (styles.color && styles.color !== 'null') element.style.color = styles.color;
+                    if (styles.strokeWidth && styles.strokeWidth !== 'null' && styles.strokeColor) {
+                        element.style.webkitTextStroke = \`\${styles.strokeWidth} \${styles.strokeColor}\`;
+                    }
+                };
+
+                // Asignar IDs a los elementos del HTML exportado para que el script los encuentre
+                const h1 = document.querySelector('.container h1');
+                if(h1) h1.id = 'portal-title-text';
+                
+                const greeting = document.querySelector('.container p.greeting');
+                if(greeting) greeting.id = 'portal-greeting-text';
+
+                const subtitle = document.querySelector('.container p.subtitle');
+                if(subtitle) subtitle.id = 'portal-subtitle-text';
+
+                // Aplicar todos los estilos de texto configurados
+                applyStyle('portal-greeting-text', {
+                    text: "${texts.portal_greeting || ''}",
+                    fontFamily: "${texts.portal_greeting_font_family || ''}",
+                    letterSpacing: "${texts.portal_greeting_letter_spacing || ''}",
+                    fontSize: "${texts.portal_greeting_font_size || ''}",
+                    color: "${texts.portal_greeting_color || ''}",
+                    strokeWidth: "${texts.portal_greeting_stroke_width || ''}",
+                    strokeColor: "${texts.portal_greeting_stroke_color || ''}"
+                });
+
+                applyStyle('portal-title-text', {
+                    text: "${texts.portal_title || ''}",
+                    fontFamily: "${texts.portal_title_font_family || ''}",
+                    letterSpacing: "${texts.portal_title_letter_spacing || ''}",
+                    fontSize: "${theme.portal_title_font_size || ''}",
+                    color: "${theme.portal_title_color || ''}",
+                    strokeWidth: "${texts.portal_title_stroke_width || ''}",
+                    strokeColor: "${texts.portal_title_stroke_color || ''}"
+                });
+                
+                applyStyle('portal-subtitle-text', {
+                    text: "${texts.portal_subtitle || ''}",
+                    fontFamily: "${texts.portal_subtitle_font_family || ''}",
+                    letterSpacing: "${texts.portal_subtitle_letter_spacing || ''}",
+                    fontSize: "${texts.portal_subtitle_font_size || ''}",
+                    color: "${texts.portal_subtitle_color || ''}",
+                    strokeWidth: "${texts.portal_subtitle_stroke_width || ''}",
+                    strokeColor: "${texts.portal_subtitle_stroke_color || ''}"
+                });
+            });
+        `;
+        // ⭐️ FIN DE LA SOLUCIÓN MEJORADA ⭐️
+
+        if (theme.portal_stickers && Array.isArray(theme.portal_stickers)) {
+            theme.portal_stickers.forEach(addSticker);
+        }
+        // También incluimos los stickers de juegos por si se quiere unificar el diseño
+        if (theme.juegos_stickers && Array.isArray(theme.juegos_stickers)) {
+            theme.juegos_stickers.forEach(addSticker);
+        }
+
+
         const finalHtml = `
             <!DOCTYPE html>
             <html lang="es">
@@ -1712,15 +1827,21 @@ async function exportMemoriesToHTML(eventId) {
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Recuerdos de ${eventId}</title>
+                <!-- ⭐️ NUEVO: Enlace a Google Fonts para cargar las fuentes externas -->
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Caveat&family=Creepster&family=EB+Garamond&family=Inter&family=Lato&family=Lobster&family=Lora&family=Luckiest+Guy&family=Merriweather&family=Montserrat&family=Nunito&family=Open+Sans&family=Oswald&family=PT+Serif&family=Pacifico&family=Playfair+Display&family=Poppins&family=Press+Start+2P&family=Righteous&family=Roboto&family=Roboto+Mono&family=Special+Elite&display=swap" rel="stylesheet">
                 <style>
                     ${cssVariables}
+                    /* ⭐️ NUEVO: Incrustar el contenido completo de style.css con fuentes */
+                    ${styleSheetText}
                     body {
                         font-family: ${theme.font_family || 'sans-serif'};
                         background-color: #f0f2f5;
                         color: var(--color-text, #333);
                         margin: 0;
                         padding: 20px;
-                        ${theme.background_image_url ? `background-image: url('${theme.background_image_url}'); background-size: cover; background-position: center; background-attachment: fixed;` : ''}
+                        ${theme.background_image_url ? `background-image: url('${theme.background_image_url}'); background-size: ${theme.background_image_size || 'cover'}; background-position: ${theme.background_image_position || 'center'}; background-attachment: fixed;` : ''}
                     }
                     .container { max-width: 800px; margin: auto; background-color: var(--portal-bg, rgba(255, 255, 255, 0.9)); border-radius: var(--portal-border-radius, 15px); padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
                     h1 { color: var(--portal-title-color, #000); text-align: center; }
@@ -1772,9 +1893,19 @@ async function exportMemoriesToHTML(eventId) {
                 </style>
             </head>
             <body>
+                <!-- ⭐️ NUEVO: Contenedor para los stickers -->
+                ${stickersHtml}
                 <div class="container">
-                    <h1>${texts.portal_title || `Recuerdos del Evento: ${eventId}`}</h1>
-                    <hr>
+                    <!-- ⭐️ SOLUCIÓN: Añadir clases para que el script los encuentre -->
+                    <p class="greeting" style="text-align: center; text-transform: uppercase; font-weight: 600; color: #6B7280;"></p>
+                    <h1 style="text-align: center;"></h1>
+                    <p class="subtitle" style="text-align: center; color: #4B5563; margin-top: 0.5rem;"></p>
+                    
+                    <!-- ⭐️ MEJORA: Filtro de búsqueda -->
+                    <div style="margin: 20px 0;">
+                        <input type="text" id="search-filter" placeholder="Buscar por nombre o mensaje..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+                    </div>
+
                     <div id="memories-list" style="margin-top: 20px;">
                         ${memoriesHtmlContent}
                     </div>
@@ -1786,6 +1917,11 @@ async function exportMemoriesToHTML(eventId) {
                     <img class="modal-content" id="modalImage">
                     <a id="downloadLink" class="download-btn" href="#" download>Descargar Foto</a>
                 </div>
+
+                <!-- ⭐️ MEJORA: Botón "Volver Arriba" -->
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" style="position: fixed; bottom: 20px; right: 20px; background-color: #333; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+                    ↑
+                </button>
 
                 <script>
                     const modal = document.getElementById('imageModal');
@@ -1800,6 +1936,22 @@ async function exportMemoriesToHTML(eventId) {
                     });
                     document.querySelector('.close-modal').onclick = () => modal.style.display = "none";
                 </script>
+                <!-- ⭐️ MEJORA: Script para el filtro de búsqueda -->
+                <script>
+                    document.getElementById('search-filter').addEventListener('input', function(e) {
+                        const filterText = e.target.value.toLowerCase();
+                        document.querySelectorAll('#memories-list .memory-item').forEach(item => {
+                            const itemText = item.textContent.toLowerCase();
+                            if (itemText.includes(filterText)) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                    });
+                </script>
+                <!-- ⭐️ NUEVO: Script para aplicar estilos dinámicos al cargar -->
+                <script>${dynamicApplicationScript}</script>
             </body>
             </html>
         `;
