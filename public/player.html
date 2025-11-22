@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trivia <span class="icon-main">🐝</span></title>
     <!-- ⭐️ CORRECCIÓN: Importación de todas las fuentes para que se vean en móvil ⭐️ -->
-    <!-- ⭐️ SOLUCIÓN: Importación de la lista COMPLETA de Google Fonts ⭐️ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Caveat&family=Creepster&family=EB+Garamond&family=Inter&family=Lato&family=Lobster&family=Lora&family=Luckiest+Guy&family=Merriweather&family=Montserrat&family=Nunito&family=Open+Sans&family=Oswald&family=PT+Serif&family=Pacifico&family=Playfair+Display&family=Poppins&family=Press+Start+2P&family=Righteous&family=Roboto&family=Roboto+Mono&family=Special+Elite&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css"> 
+
+    <style>
+        /* ⭐️ SOLUCIÓN FOUC: Ocultar el contenedor principal hasta que la configuración esté cargada. */
+        .quiz-container {
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+    </style>
     
     <style>
         /* * :root define los valores POR DEFECTO.
@@ -115,13 +122,11 @@
                 <h2 id="trivia-welcome-text" style="color: #333; margin-bottom: 15px;">¡Bienvenido a la Colmena!</h2>
                 <h3 id="trivia-subtitle-text" style="color: #333; margin-bottom: 10px;">¿Cuanto sabes de Amo?</h3>
 <label for="player-name-input" style="display: block; font-weight: bold; margin-bottom: 5px;">Tu Nombre de Jugador:</label>
-                <input type="text" id="player-name-input" required placeholder="Escribe tu nombre" 
-                       style="width: 100%; box-sizing: border-box; padding: 10px; margin-bottom: 15px; border: 2px solid #ffcc00; border-radius: 5px;"
-                       maxlength="20">
+                <input type="text" id="player-name-input" class="text-input" required placeholder="Escribe tu nombre" maxlength="20">
 
                 <p id="player-no-questions-msg" style="color: red; font-weight: bold;" class="hidden">El anfitrión debe cargar las preguntas primero.</p>
                 
-                <!-- ⭐️ SOLUCIÓN: Se usan las clases de botón consistentes -->
+                <!-- ⭐️ CORRECCIÓN: Se usan las clases de botón consistentes con los otros juegos -->
                 <button type="submit" id="start-game-btn" class="btn-portal btn-trivia mt-4">INICIAR JUEGO</button>
                 
                 <div style="text-align: center; margin-top: 20px;">

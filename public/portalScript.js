@@ -831,6 +831,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Esta función ahora contiene todos los addEventListener
         initializePortal();
 
+        // ⭐️ SOLUCIÓN FOUC: Hacer visible el contenido principal después de cargar la configuración.
+        // Esto previene el "parpadeo" de contenido sin estilo.
+        const mainContainer = document.querySelector('.container');
+        if (mainContainer) mainContainer.style.opacity = '1';
+
     } catch (error) {
         // Esto atrapará el error de 'getEventId' o 'loadEventConfig'
         console.error("Error al inicializar la aplicación:", error.message);

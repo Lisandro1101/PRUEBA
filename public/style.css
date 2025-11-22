@@ -373,13 +373,19 @@ h1 {
 /* Cuerpo del Ahorcado (The Bee-Man) */
 .hangman-part {
     position: absolute;
-    /* 🚨 Modificación: Eliminar background-color base, cada parte lo define */
-    /* background-color: var(--bee-black); */ 
+    /* ⭐️ CORRECCIÓN: Oculto por defecto. JS lo mostrará cuando sea necesario. */
+    display: none;
     z-index: 10;
     transition: opacity 0.3s;
 }
+
+/* ⭐️ CORRECCIÓN: Usar 'display: none' en lugar de 'opacity: 0'.
+ * 'opacity: 0' lo hace invisible pero sigue ocupando espacio y puede
+ * causar problemas de layout. 'display: none' lo elimina completamente
+ * hasta que se necesite.
+*/
 .hangman-part.hidden {
-    opacity: 0;
+    display: none;
 }
 
 /* Cabeza - Se pinta de amarillo Abeja (YA ESTÁ CORRECTO) */
@@ -474,7 +480,8 @@ h1 {
     top: 15px;
     right: 15px;
     font-size: 2.5rem; /* Tamaño del emoji */
-    background-color: transparent; /* ⭐️ SOLUCIÓN: Fondo transparente */
+    /* ⭐️ CORRECCIÓN: Se hace el fondo transparente y se quita la sombra para que solo se vea el emoji. */
+    background-color: transparent;
     border-radius: 50%; /* Lo hace redondo */
     width: 60px;
     height: 60px;
@@ -483,7 +490,7 @@ h1 {
     align-items: center;
     text-decoration: none;
     z-index: 1001; /* Asegura que esté por encima del menú */
-    box-shadow: none; /* ⭐️ SOLUCIÓN: Sin sombra */
+    box-shadow: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-shadow: none; /* Quita el text-shadow de la regla global */
 }

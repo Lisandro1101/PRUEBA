@@ -1291,22 +1291,23 @@ function updateHangmanDisplay() {
     const wordDisplay = document.getElementById('word-display');
     const lettersDisplay = document.getElementById('guessed-letters');
     const livesDisplay = document.getElementById('lives-display');
+    // ⭐️ CORRECCIÓN: Se reordena el array para que el dibujo aparezca en el orden correcto.
     const HANGMAN_PARTS_IDS = [
-        '#hg-head', '#hg-body', '#hg-arm-l', '#hg-arm-r', '#hg-leg-l', '#hg-leg-r', '#hg-face'
+        'hg-head', 'hg-body', 'hg-arm-l', 'hg-arm-r', 'hg-leg-l', 'hg-leg-r', 'hg-face'
     ];
+
+    // ⭐️ CORRECCIÓN DEFINITIVA: Forzar el ocultamiento de todas las partes al inicio de la actualización.
+    // Esto previene que partes visibles por defecto en el HTML interfieran con la lógica.
+    document.querySelectorAll('.hangman-part').forEach(part => part.style.display = 'none');
+
     wordDisplay.textContent = maskedWord.join(' ');
     lettersDisplay.textContent = 'Letras usadas: ' + guessedLetters.join(', ');
     livesDisplay.textContent = `Vidas restantes: ${lives}`;
     const errors = 7 - lives;
-    HANGMAN_PARTS_IDS.forEach((selector, index) => {
-        const part = document.querySelector(selector);
-        if (part) {
-            if (index < errors) {
-                part.classList.remove('hidden');
-            } else {
-                part.classList.add('hidden');
-            }
-        }
+    HANGMAN_PARTS_IDS.forEach((partId, index) => {
+        const partElement = document.getElementById(partId);
+        // Ahora, solo mostramos las partes que corresponden al número de errores.
+        if (partElement && index < errors) partElement.style.display = 'block';
     });
 }
 
@@ -1340,7 +1341,8 @@ function checkGameStatus() {
     const playAgainBtn = document.getElementById('play-again-hangman-btn');
     if (!maskedWord.includes('_')) {
         gameStatus.textContent = `🎉 ¡FELICIDADES, ${hangmanPlayerName}! Adivinaste la palabra.`;
-        wordDisplay.textContent = hangmanWord.split('').join(' ');
+        // ⭐️ CORRECCIÓN: Al ganar, revelamos la palabra completa sin espacios extra.
+        wordDisplay.textContent = hangmanWord;
         disableKeyboard();
         playAgainBtn.classList.remove('hidden');
     } else if (lives === 0) {
@@ -1421,9 +1423,14 @@ function initializeHangmanGame() {
     if (playAgainBtn) {
         playAgainBtn.addEventListener('click', () => {
             playAgainBtn.classList.add('hidden');
-            handleStartGame();
+            handleStartGame(); // Esto prepara la lógica del nuevo juego.
+            // ⭐️ CORRECCIÓN: Se añade la llamada para limpiar el dibujo y reiniciar el contador visualmente.
+            updateHangmanDisplay();
         });
     }
+
+    // Llamada para asegurar que el estado visual (vidas, dibujo) esté limpio al cargar la página.
+    updateHangmanDisplay();
 }
 
 // =======================================================================
@@ -1468,6 +1475,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Simplemente la inicializamos
             initializeAppPage(path);
         }
+
+        // ⭐️ SOLUCIÓN FOUC: Hacer visible el contenido principal después de cargar la configuración.
+        // Esto previene el "parpadeo" de contenido sin estilo en todas las páginas de juegos.
+        const mainContainer = document.querySelector('.quiz-container');
+        if (mainContainer) mainContainer.style.opacity = '1';
 
     } catch (error) {
         // Si getEventId o loadEventConfig fallan, la app se detiene.
@@ -1646,6 +1658,16 @@ async function embedFontsInCSS(cssText) {
  */
 async function exportMemoriesToHTML(eventId) {
     const exportButton = document.getElementById('export-memories-btn');
+    // ⭐️ NUEVO: Mapa de emojis para traducir las reacciones guardadas.
+    const REACTION_EMOJIS = {
+        'like': '👍',
+        'love': '❤️',
+        'haha': '😂',
+        'wow': '😮',
+        'sad': '😢',
+        'angry': '😡'
+    };
+
     const originalButtonText = exportButton.innerHTML;
     exportButton.disabled = true;
     exportButton.innerHTML = 'Exportando... (puede tardar varios minutos)';
@@ -1710,7 +1732,20 @@ async function exportMemoriesToHTML(eventId) {
                 commentsHtml += '</div>';
             }
 
-            const likeCount = memory.likeCount || 0;
+            // ⭐️ CORRECCIÓN: Generar HTML para las nuevas reacciones en lugar del antiguo 'likeCount'.
+            let reactionsHtml = '';
+            const reactionSummary = memory.reactionSummary;
+            if (reactionSummary && Object.keys(reactionSummary).length > 0) {
+                reactionsHtml = '<div style="display: flex; align-items: center; gap: 8px;">';
+                for (const reactionType in reactionSummary) {
+                    const count = reactionSummary[reactionType];
+                    if (count > 0 && REACTION_EMOJIS[reactionType]) {
+                        reactionsHtml += `<span style="background-color: #f0f0f0; padding: 2px 6px; border-radius: 10px;">${REACTION_EMOJIS[reactionType]} ${count}</span>`;
+                    }
+                }
+                reactionsHtml += '</div>';
+            }
+
             const formattedDate = new Date(memory.timestamp).toLocaleString('es-ES');
 
             memoriesHtmlContent += `
@@ -1719,7 +1754,7 @@ async function exportMemoriesToHTML(eventId) {
                     <p style="font-size: 0.9em; color: #444; margin-top: 4px;">${memory.message || ''}</p>
                     ${mediaContent}
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.8em; color: #666;">
-                        <span>❤️ ${likeCount}</span>
+                        ${reactionsHtml}
                         <span>${formattedDate}</span>
                     </div>
                     ${commentsHtml}

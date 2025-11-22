@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Memoria <span class="icon-memory">🧠</span></title>
     <!-- ⭐️ CORRECCIÓN: Importación de todas las fuentes para que se vean en móvil ⭐️ -->
-    <!-- ⭐️ SOLUCIÓN: Importación de la lista COMPLETA de Google Fonts ⭐️ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Caveat&family=Creepster&family=EB+Garamond&family=Inter&family=Lato&family=Lobster&family=Lora&family=Luckiest+Guy&family=Merriweather&family=Montserrat&family=Nunito&family=Open+Sans&family=Oswald&family=PT+Serif&family=Pacifico&family=Playfair+Display&family=Poppins&family=Press+Start+2P&family=Righteous&family=Roboto&family=Roboto+Mono&family=Special+Elite&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ⭐️ SOLUCIÓN FOUC: Ocultar el contenedor principal hasta que la configuración esté cargada. */
+        .quiz-container {
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+    </style>
     
     <style>
         /* ⭐️ VALORES DE RESPALDO PARA EL JUEGO DE MEMORIA ⭐️ */
@@ -180,12 +187,9 @@
             <p class="mb-4">Ingresa tu nombre para comenzar a encontrar las parejas:</p>
             
             <label for="player-name-input" style="display: block; font-weight: bold; margin-bottom: 5px;">Tu Nombre de Jugador:</label>
-            
-            <!-- ⭐️ SOLUCIÓN: Se aplican los mismos estilos que en los otros juegos -->
-            <input type="text" id="player-name-input" class="text-input" placeholder="Tu Nombre" maxlength="20"
-                   style="width: 100%; box-sizing: border-box; padding: 10px; margin-bottom: 15px; border: 2px solid var(--bee-yellow); border-radius: 5px;">
-            
-            <!-- ⭐️ SOLUCIÓN: Se usan las clases de botón consistentes -->
+
+            <input type="text" id="player-name-input" class="text-input" placeholder="Tu Nombre" maxlength="20">            
+            <!-- ⭐️ CORRECCIÓN: Se usan las clases de botón consistentes con los otros juegos -->
             <button id="start-btn" class="btn-portal btn-trivia mt-4">¡Comenzar!</button>
 
             <div style="text-align: center; margin-top: 20px;">

@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego del Ahorcado <span class="icon-main">🐝</span></title>
     <!-- ⭐️ CORRECCIÓN: Importación de todas las fuentes para que se vean en móvil ⭐️ -->
-    <!-- ⭐️ SOLUCIÓN: Importación de la lista COMPLETA de Google Fonts ⭐️ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Caveat&family=Creepster&family=EB+Garamond&family=Inter&family=Lato&family=Lobster&family=Lora&family=Luckiest+Guy&family=Merriweather&family=Montserrat&family=Nunito&family=Open+Sans&family=Oswald&family=PT+Serif&family=Pacifico&family=Playfair+Display&family=Poppins&family=Press+Start+2P&family=Righteous&family=Roboto&family=Roboto+Mono&family=Special+Elite&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css"> 
     
+    <style>
+        /* ⭐️ SOLUCIÓN FOUC: Ocultar el contenedor principal hasta que la configuración esté cargada. */
+        .quiz-container {
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+    </style>
+
     <style>
         :root {
             --btn-hangman-bg: var(--bee-yellow, #FACC15);
@@ -118,10 +125,10 @@
             <p id="hangman-subtitle-text" class="mb-4">Ingresa tu nombre para comenzar a adivinar la palabra secreta:</p>
             
             <label for="player-name-input-hangman" style="display: block; font-weight: bold; margin-bottom: 5px;">Tu Nombre de Jugador:</label>
-
-            <input type="text" id="player-name-input-hangman" class="text-input" placeholder="Tu Nombre" maxlength="20"
-                   style="width: 100%; box-sizing: border-box; padding: 10px; margin-bottom: 15px; border: 2px solid var(--bee-yellow); border-radius: 5px;">
             
+            <!-- ⭐️ CORRECCIÓN: Se eliminan los estilos en línea para usar solo la clase 'text-input' -->
+            <input type="text" id="player-name-input-hangman" class="text-input" placeholder="Tu Nombre" maxlength="20">
+
             <button id="start-btn-hangman" class="btn-portal btn-trivia mt-4">¡Comenzar!</button>
 
             <div style="text-align: center; margin-top: 20px;">
@@ -144,13 +151,15 @@
     <div class="gallows-beam"></div>
     <div class="gallows-rope"></div>
 
+    <!-- ⭐️ CORRECCIÓN: Las partes del cuerpo ahora están DENTRO del contenedor del gráfico -->
     <div id="hg-head" class="hangman-part hidden"></div> 
     <div id="hg-body" class="hangman-part hidden"></div>
     <div id="hg-arm-l" class="hangman-part hidden"></div>
     <div id="hg-arm-r" class="hangman-part hidden"></div>
     <div id="hg-leg-l" class="hangman-part hidden"></div>
     <div id="hg-leg-r" class="hangman-part hidden"></div>
-    <div id="hg-face" class="hangman-part hidden"></div> </div>
+    <div id="hg-face" class="hangman-part hidden"></div>
+</div>
             
             <p id="word-display">_ _ _ _ _</p>
             
