@@ -1298,7 +1298,10 @@ function updateHangmanDisplay() {
 
     // ⭐️ CORRECCIÓN DEFINITIVA: Forzar el ocultamiento de todas las partes al inicio de la actualización.
     // Esto previene que partes visibles por defecto en el HTML interfieran con la lógica.
-    document.querySelectorAll('.hangman-part').forEach(part => part.style.display = 'none');
+    document.querySelectorAll('.hangman-part').forEach(part => {
+        part.classList.remove('hidden'); // Por si acaso, quitamos la clase conflictiva.
+        part.style.display = 'none'; // Ocultamos directamente con JS.
+    });
 
     wordDisplay.textContent = maskedWord.join(' ');
     lettersDisplay.textContent = 'Letras usadas: ' + guessedLetters.join(', ');
@@ -1307,7 +1310,11 @@ function updateHangmanDisplay() {
     HANGMAN_PARTS_IDS.forEach((partId, index) => {
         const partElement = document.getElementById(partId);
         // Ahora, solo mostramos las partes que corresponden al número de errores.
-        if (partElement && index < errors) partElement.style.display = 'block';
+        if (partElement && index < errors) {
+            // ⭐️ SOLUCIÓN: Forzar la visibilidad eliminando la clase y aplicando el estilo.
+            partElement.classList.remove('hidden');
+            partElement.style.display = 'block';
+        }
     });
 }
 

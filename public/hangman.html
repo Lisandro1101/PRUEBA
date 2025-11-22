@@ -20,6 +20,11 @@
 
     <style>
         :root {
+            /* ⭐️ SOLUCIÓN: Se añaden las variables de color para que el dibujo sea visible */
+            --bee-yellow: #FACC15;
+            --bee-black: #1F2937;
+            --honey-gold: #F59E0B;
+
             --btn-hangman-bg: var(--bee-yellow, #FACC15);
             --btn-hangman-text-color: var(--bee-black, #1F2937);
             --btn-hangman-border-color: var(--honey-gold, #F59E0B);
@@ -152,13 +157,13 @@
     <div class="gallows-rope"></div>
 
     <!-- ⭐️ CORRECCIÓN: Las partes del cuerpo ahora están DENTRO del contenedor del gráfico -->
-    <div id="hg-head" class="hangman-part hidden"></div> 
-    <div id="hg-body" class="hangman-part hidden"></div>
-    <div id="hg-arm-l" class="hangman-part hidden"></div>
-    <div id="hg-arm-r" class="hangman-part hidden"></div>
-    <div id="hg-leg-l" class="hangman-part hidden"></div>
-    <div id="hg-leg-r" class="hangman-part hidden"></div>
-    <div id="hg-face" class="hangman-part hidden"></div>
+    <div id="hg-head" class="hangman-part"></div> 
+    <div id="hg-body" class="hangman-part"></div>
+    <div id="hg-arm-l" class="hangman-part"></div>
+    <div id="hg-arm-r" class="hangman-part"></div>
+    <div id="hg-leg-l" class="hangman-part"></div>
+    <div id="hg-leg-r" class="hangman-part"></div>
+    <div id="hg-face" class="hangman-part"></div>
 </div>
             
             <p id="word-display">_ _ _ _ _</p>
