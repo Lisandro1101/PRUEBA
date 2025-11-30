@@ -17,7 +17,8 @@
     },
     {
       "target": "app-juego",
-      "public": "public",       
+      // 🐛 CORRECCIÓN: Apunta al directorio de construcción del juego.
+      "public": "juego/dist",       
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -30,7 +31,8 @@
         }
       ]
     }
-  ],
+  ],  
+  // 🐛 CORRECCIÓN: Se añadió la coma que faltaba aquí.
   "functions": [
     {
       "source": "functions",

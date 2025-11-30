@@ -15,15 +15,30 @@ jobs:
       - uses: actions/checkout@v4
       # ⭐️ CORRECCIÓN: Añadimos los pasos para construir el proyecto de Next.js
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+      uses: actions/setup-node@v4
         with:
           node-version: '20' # Usamos una versión de Node.js compatible
-      - name: Install and Build
+      - name: Install and Build (vidriera)
         run: npm ci && npm run build
         working-directory: ./vidriera # ❗️ Le decimos que trabaje dentro de la carpeta 'vidriera'
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      # ✨ MEJORA: Añade el paso de construcción para el juego.
+      - name: Install and Build (app-juego)
+        run: npm ci && npm run build
+        working-directory: ./juego # ❗️ Asumiendo que el juego está en la carpeta 'juego'
+      # 🐛 CORRECCIÓN: El paso de despliegue estaba roto en dos líneas.
+      - name: Deploy 'web-publica' to Firebase Hosting preview
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JUEGOS_CUMPLE }}
           projectId: juegos-cumple          
-          target: web-publica # <-- AÑADIDO: Especificamos qué sitio desplegar
+          target: web-publica
+      - name: Deploy 'app-juego' to Firebase Hosting preview
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JUEGOS_CUMPLE }}
+          # 🐛 CORRECCIÓN: Es mejor añadir el projectId explícitamente.
+          projectId: juegos-cumple
+          target: app-juego
+

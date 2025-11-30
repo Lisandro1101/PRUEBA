@@ -19,10 +19,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Install and Build vidriera
+      - name: Install and Build (vidriera)
         run: npm ci && npm run build
         working-directory: ./vidriera # ❗️ Le decimos que trabaje dentro de la carpeta 'vidriera'
-      - name: Deploy to Firebase Hosting (web-publica)
+      # ✨ MEJORA: Añade el paso de construcción para el juego si es necesario
+      - name: Install and Build (app-juego)
+        run: npm ci && npm run build
+        working-directory: ./juego # ❗️ Asumiendo que el juego está en la carpeta 'juego'
+      - name: Deploy 'web-publica' to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
@@ -38,3 +42,5 @@ jobs:
           projectId: juegos-cumple
           channelId: live
           target: app-juego # Despliega el sitio del juego
+          # ⭐️ SUGERENCIA: Especifica el directorio público del juego si no es la raíz.
+          # public: ./ruta/al/juego 
