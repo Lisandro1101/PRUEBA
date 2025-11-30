@@ -23,8 +23,9 @@ jobs:
         working-directory: ./vidriera # ❗️ Le decimos que trabaje dentro de la carpeta 'vidriera'
       # ✨ MEJORA: Añade el paso de construcción para el juego.
       - name: Install and Build (app-juego)
+        # 🐛 CORRECCIÓN: Se elimina 'working-directory' si los archivos del juego están en la raíz.
+        # Si están en otra carpeta, ajusta la ruta aquí.
         run: npm ci && npm run build
-        working-directory: ./juego # ❗️ Asumiendo que el juego está en la carpeta 'juego'
       # 🐛 CORRECCIÓN: El paso de despliegue estaba roto en dos líneas.
       - name: Deploy 'web-publica' to Firebase Hosting preview
         uses: FirebaseExtended/action-hosting-deploy@v0
