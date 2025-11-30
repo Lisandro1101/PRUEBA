@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       # ⭐️ CORRECCIÓN: Añadimos los pasos para construir el proyecto de Next.js
       - name: Setup Node.js
-      uses: actions/setup-node@v4
+        uses: actions/setup-node@v4
         with:
           node-version: '20' # Usamos una versión de Node.js compatible
       - name: Install and Build (vidriera)
@@ -31,7 +31,8 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JUEGOS_CUMPLE }}
-          projectId: juegos-cumple          
+          # ✨ MEJORA: Añadir el projectId explícitamente para mayor claridad.
+          projectId: juegos-cumple
           target: web-publica
       - name: Deploy 'app-juego' to Firebase Hosting preview
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -41,4 +42,3 @@ jobs:
           # 🐛 CORRECCIÓN: Es mejor añadir el projectId explícitamente.
           projectId: juegos-cumple
           target: app-juego
-
